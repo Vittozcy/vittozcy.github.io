@@ -4820,7 +4820,7 @@ html {
     max-height: 100%;
     border: 1px solid #ab898c;
     display: block; /* Ensures the image behaves as a block-level element */
-    aspect-ratio: 1 / 1; /* Maintains a 1:1 aspect ratio */
+	overflow: auto;;
 }
 
 .tab-content table {
@@ -4851,4 +4851,16 @@ html {
     margin-right: 0px; /* Add margin to the right */
     margin-bottom: 5px; /* Reduce margin after (below) the text block */
     line-height: 1.8; /* Reduce line-height to cut space between lines by half */
+}
+
+/* Default styles (for screens larger than 1680px) */
+.responsive-iframe {
+    width: 100%;
+}
+
+/* Media query for screens smaller than 1680px */
+@media screen and (max-width: 1680px) {
+    .responsive-iframe {
+        width: 940px;
+    }
 }
