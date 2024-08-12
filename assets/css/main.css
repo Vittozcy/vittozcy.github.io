@@ -237,31 +237,32 @@ input, select, textarea {
 	}
 
 	blockquote {
-		border-left: solid 4px;
+		border-left: solid 0px;
 		font-style: italic;
-		margin: 0 0 2rem 0;
-		padding: 0.5rem 0 0.5rem 2rem;
+		margin: 0 0 0 0;
+		padding: 0 0 0 0rem;
 	}
 
 	code {
-		border: solid 2px;
-		font-family: "Courier New", monospace;
+		border: solid 0px;
+		font-family: 'Fira Mono', monospace; /* Changed to Fira Mono */
 		font-size: 0.9rem;
-		margin: 0 0.25rem;
-		padding: 0.25rem 0.65rem;
+		margin: 0 0rem;
+		padding: 5px;
 	}
-
+	
 	pre {
 		-webkit-overflow-scrolling: touch;
-		font-family: "Courier New", monospace;
+		font-family: 'Fira Mono', monospace; /* Changed to Fira Mono */
 		font-size: 0.9rem;
-		margin: 0 0 2rem 0;
+		margin: 0 0 0 0;
 	}
+	
 
 		pre code {
 			display: block;
 			line-height: 1.75;
-			padding: 1rem 1.5rem;
+			padding: 7px 7px;
 			overflow-x: auto;
 		}
 
@@ -3019,7 +3020,7 @@ input, select, textarea {
 		}
 
 		table td {
-			padding: 0.75rem 0.75rem;
+			padding: 0.4rem 0.75rem;
 		}
 
 		table th {
@@ -3028,7 +3029,7 @@ input, select, textarea {
 			font-weight: 900;
 			letter-spacing: 0.075em;
 			line-height: 1.5;
-			padding: 0 0.75rem 0.75rem 0.75rem;
+			padding: 0 0.75rem 0.2rem 0.2rem;
 			text-align: left;
 			text-transform: uppercase;
 		}
@@ -4743,6 +4744,7 @@ html {
     display: flex;
     justify-content: center; /* Centers the buttons horizontally */
     gap: 20px; /* Adds space between the buttons */
+    margin-top: 10px; /* Adjust this value as needed to lower the buttons */
 }
 
 .three-columns {
@@ -4751,4 +4753,101 @@ html {
 }
 .three-columns div {
 	width: 30%;
+}
+.tab-container {
+    width: 100%;
+    margin: 0px !important; /* Remove default margin */
+}
+
+.tabs {
+    overflow: hidden;
+    border-bottom: 0px solid #ccc;
+    margin-bottom: 0 !important; /* Ensure there is no unintended space below tabs */
+    padding-bottom: 0px !important; /* Add padding if necessary to create space above the buttons */
+    padding-top: 0px !important; /* Ensure no extra space is added above */
+}
+
+.tab-link {
+    background-color: white !important;
+    border: 1px solid #000 !important; /* Use the desired border color */
+    color: #000 !important;
+    outline: none !important;
+    cursor: pointer;
+    padding: 10px 20px !important; /* Adjust padding to reduce space above and below text */
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2; /* Adjust line-height to help with vertical centering */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    display: inline-block;
+    margin: 0;
+    box-shadow: none !important; /* Remove any potential shadow that might cause the inner border effect */
+    height: auto; /* Ensure height adjusts based on content */
+}
+
+.tab-link:hover {
+    background-color: white !important;
+}
+
+.tab-link.active {
+    background-color: white !important;
+    border: 1px solid #ab898c !important; /* Active tab border color */
+    color: #ab898c !important; /* Active tab font color */
+    outline: none !important;
+    cursor: pointer;
+    padding: 10px 20px !important; /* Adjust padding to reduce space above and below text */
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2; /* Adjust line-height to help with vertical centering */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    display: inline-block;
+    margin: 0;
+    box-shadow: none !important; /* Remove any potential shadow that might cause the inner border effect */
+    height: auto; /* Ensure height adjusts based on content */
+}
+
+.tab-content {
+    overflow-x: auto; /* Allows horizontal scrolling if the image is too wide */
+}
+
+.tab-content img {
+    width: auto;
+    height: auto;
+    max-height: 100%;
+    border: 1px solid #ab898c;
+    display: block; /* Ensures the image behaves as a block-level element */
+    aspect-ratio: 1 / 1; /* Maintains a 1:1 aspect ratio */
+}
+
+.tab-content table {
+	padding: 0px 0px;
+    width: 100%;
+}
+
+.tab-content pre {
+    margin: 0 !important; /* Remove margin around <pre> */
+    padding: 5px; /* Reduce padding inside <pre> to minimize space */
+    background-color: #f0f0f08f; /* Set background color */
+    border: 1px solid #e9e9e9; /* Set border */
+    overflow: auto; /* Ensure scrollbars appear if needed */
+}
+
+.tab-content code {
+    display: block; /* Ensure code is displayed as block */
+    padding: 1px 3px; /* Reduce padding inside <code> */
+    background-color: #ab898c00; /* Set background color */
+    margin: 0px !important; /* Remove margin around <code> */
+    border: none; /* Remove border */
+}
+
+.tab-content p {
+    font-size: 16pt; /* Adjust font size */
+	margin-top: 10px; /* Remove margin above the text block */
+    margin-left: 0px; /* Add margin to the left */
+    margin-right: 0px; /* Add margin to the right */
+    margin-bottom: 5px; /* Reduce margin after (below) the text block */
+    line-height: 1.8; /* Reduce line-height to cut space between lines by half */
 }

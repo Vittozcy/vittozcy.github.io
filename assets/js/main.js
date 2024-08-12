@@ -254,5 +254,35 @@
 			});
 
 		}
-
 })(jQuery);
+
+// Display the first tab of each tab-container by default
+document.querySelectorAll('.tab-container').forEach(container => {
+    container.querySelector('.tab-link').click();
+});
+
+// Function to open a specific tab within its container
+function openTab(evt, tabName, containerId) {
+    var i, tabcontent, tablinks;
+    
+    // Find the parent container of the tabs and their content
+    var container = document.getElementById(containerId);
+    
+    // Hide all tab contents within this container
+    tabcontent = container.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    
+    // Remove the "active" class from all tab links within this container
+    tablinks = container.getElementsByClassName("tab-link");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    
+    // Display the current tab and add "active" class to the link
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+    
+    Prism.highlightAll(); // Reinitialize Prism.js after switching tabs
+}

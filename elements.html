@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>About Me</title>
+		<title>Elements</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -38,8 +38,6 @@
 					<ul class="links">
 						<li><a href="index.html#header">Python Projects</a></li>
 						<li><a href="R_index.html#header">R Projects</a></li>
-						<li class="active"><a href="elements.html#header">Elements</a></li>
-						<li><a href="generic.html#header">Generic</a></li>
 						<li class="right-aligned"><a href="About_me.html#header">About Me</a></li>
 					</ul>
 					<ul class="icons">
@@ -425,16 +423,93 @@
 
 								<!-- Preformatted Code -->
 									<h2>Preformatted</h2>
-									<pre><code>i = 0;
+										<pre class="language-r"><code># This is an example of a while loop in R
+i <- 0
 
-while (!deck.isInOrder()) {
-    print 'Iteration ' + i;
-    deck.shuffle();
-    i++;
+while (i < 10) {
+  print(i)
+  i <- i + 1
 }
-
-print 'It took ' + i + ' iterations to sort the deck.';
 </code></pre>
+
+
+<div id="tab-container-1" class="tab-container">
+	<div class="tabs">
+		<button class="tab-link" onclick="openTab(event, 'Content1','tab-container-1')">Table</button>
+		<button class="tab-link" onclick="openTab(event, 'Content2','tab-container-1')">Code</button>
+	</div>
+
+	<div id="Content1" class="tab-content">
+		<img src="images/pic01.jpg" alt="Image Description" style="width:100%;">
+		<!-- Or if you want to display a table instead of an image, use the following table element -->
+		<div class="table-wrapper">
+			<table class="alt">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Item 1</td>
+						<td>Ante turpis integer aliquet porttitor.</td>
+						<td>29.99</td>
+					</tr>
+					<tr>
+						<td>Item 2</td>
+						<td>Vis ac commodo adipiscing arcu aliquet.</td>
+						<td>19.99</td>
+					</tr>
+					<tr>
+						<td>Item 3</td>
+						<td> Morbi faucibus arcu accumsan lorem.</td>
+						<td>29.99</td>
+					</tr>
+					<tr>
+						<td>Item 4</td>
+						<td>Vitae integer tempus condimentum.</td>
+						<td>19.99</td>
+					</tr>
+					<tr>
+						<td>Item 5</td>
+						<td>Ante turpis integer aliquet porttitor.</td>
+						<td>29.99</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2"></td>
+						<td>100.00</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+
+	<div id="Content2" class="tab-content">
+
+		<pre class="language-python"><code>def factorial(n):
+"""Example of a Python code calculating factorials"""
+	if n == 0 or n == 1:
+		return 1
+	else:
+		return n * factorial(n - 1)
+		
+# Example usage
+number = 5
+print(f"The factorial of {number} is {factorial(number)}")</code></pre>
+
+		<p>
+			You can also add text here if you want to explain the code or provide additional information. Just like this paragraph. Continue to write as much as you want.
+		</p>
+	</div>
+	</div>
+</div>
+</section>
+
+</div>
 
 							</section>
 
@@ -494,13 +569,12 @@ print 'It took ' + i + ' iterations to sort the deck.';
 				</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script src="assets/js/prism.js"></script>
 	</body>
 </html>
