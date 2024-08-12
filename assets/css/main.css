@@ -1056,7 +1056,7 @@ input, select, textarea {
 
 		}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			.row {
 				display: flex;
@@ -2164,7 +2164,7 @@ input, select, textarea {
 			padding: 0 2.75rem;
 		}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			input[type="submit"],
 			input[type="reset"],
@@ -2323,7 +2323,7 @@ input, select, textarea {
 		margin: 0 0 0.75rem 0;
 	}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			label {
 				font-size: 0.9rem;
@@ -2981,7 +2981,7 @@ input, select, textarea {
 					right: 0;
 				}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			header br {
 				display: none;
@@ -3034,7 +3034,7 @@ input, select, textarea {
 			text-transform: uppercase;
 		}
 
-			@media screen and (max-width: 980px) {
+			@media screen and (max-width: 1100px) {
 
 				table th {
 					font-size: 0.9rem;
@@ -3173,7 +3173,7 @@ input, select, textarea {
 			margin-left: 0.9375em;
 		}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			.pagination a, .pagination span {
 				font-size: 0.9rem;
@@ -3445,7 +3445,7 @@ input, select, textarea {
 				opacity: 0;
 			}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			#intro {
 				padding: 4rem 4rem 2rem 4rem ;
@@ -3577,7 +3577,7 @@ input, select, textarea {
 				color: #ab898c !important;
 			}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			#header {
 				height: 14rem;
@@ -3741,10 +3741,11 @@ input, select, textarea {
 			margin-bottom: 0;
 		}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			#nav {
 				display: none;
+				background: none;
 			}
 
 		}
@@ -3877,7 +3878,7 @@ input, select, textarea {
 					border-top-width: 0;
 				}
 
-			@media screen and (max-width: 980px) {
+			@media screen and (max-width: 1100px) {
 
 				#main > .posts > * {
 					width: 50%;
@@ -4292,7 +4293,7 @@ input, select, textarea {
 			font-size: 0.8rem;
 		}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			#footer {
 				display: block;
@@ -4530,7 +4531,7 @@ input, select, textarea {
 				background-color: #ffffff;
 			}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			#navPanelToggle {
 				display: block;
@@ -4650,7 +4651,7 @@ input, select, textarea {
 
 			}
 
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 1100px) {
 
 			#navPanel {
 				display: block;
@@ -4666,7 +4667,7 @@ input, select, textarea {
 
 		}
 
-	@media screen and (max-width: 980px) {
+	@media screen and (max-width: 1100px) {
 
 		body.is-navPanel-visible #wrapper {
 			opacity: 0.5;
