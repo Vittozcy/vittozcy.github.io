@@ -39,16 +39,16 @@
 					<div id="main">
 					
 						<ul class="actions" style="display: flex; justify-content: space-between; width: 100%;">
-							<li><a href="index.html#nav" class="button small">< Other Python Projects</a></li>
-							<li><a href="mushroom_R.html" class="button small">Same Project in R ></a></li>
+							<li><a href="R_index.html#nav" class="button small">< Other R Projects</a></li>
+							<li><a href="mushroom_python.html" class="button small">Same Project in Python ></a></li>
 						</ul>						
 
 						<!-- Post -->
 							<section class="post">
 								<header class="major">
 									<h2>Mushroom Toxicity Predictor</h2>
-									<p>In this project, we will implement a random forest classifier in Python to predict the toxicity of mushrooms 
-										based on their characteristics and build a web application to make the model accessible to users.
+									<p>In this project, we will implement a random forest classifier in R to predict the toxicity of mushrooms 
+										based on their characteristics and build a web application using Shiny to make the model accessible to users.
 									</p>
 								</header>
 								<div class="image main"><img src="images/mushroom2.jpg" alt="" /></div>
@@ -79,7 +79,7 @@
 									<a href="https://www.amazon.com/National-Audubon-Society-American-Mushrooms/dp/0394519922" target="_blank">The Audubon 
 										Society Field Guide to North American Mushrooms (1981)</a> from G.H. Lincoff.
 
-									This dataset contains 8124 rows and 22 columns which look like this after removing the NA values:
+									This dataset contains 8124 rows and 22 columns which look like this after removing the NA values and renaming the columns:
 								</p>
 
 								<div id="tab-container-1" class="tab-container">
@@ -92,6 +92,7 @@
 										<div class="table-wrapper">
 											<table  class="alt">
 													<tr>
+													  <th>poisonous</th>
 													  <th>cap-shape</th>
 													  <th>cap-surface</th>
 													  <th>cap-color</th>
@@ -116,6 +117,7 @@
 													  <th>habitat</th>
 													</tr>
 													<tr>
+													  <td>p</td>
 													  <td>x</td>
 													  <td>s</td>
 													  <td>n</td>
@@ -140,6 +142,7 @@
 													  <td>u</td>
 													</tr>
 													<tr>
+													  <td>e</td>
 													  <td>x</td>
 													  <td>s</td>
 													  <td>y</td>
@@ -164,6 +167,7 @@
 													  <td>g</td>
 													</tr>
 													<tr>
+													  <td>e</td>
 													  <td>b</td>
 													  <td>s</td>
 													  <td>w</td>
@@ -188,6 +192,7 @@
 													  <td>m</td>
 													</tr>
 													<tr>
+													  <td>p</td>
 													  <td>x</td>
 													  <td>y</td>
 													  <td>w</td>
@@ -212,6 +217,7 @@
 													  <td>u</td>
 													</tr>
 													<tr>
+													  <td>e</td>
 													  <td>x</td>
 													  <td>s</td>
 													  <td>g</td>
@@ -236,41 +242,67 @@
 													  <td>g</td>
 													</tr>
 											</table>
-											<pre><code>Shape of y: (5644, 1)
-Shape of X: (5644, 22)</code></pre>
-											
 										</div>
 									</div>
 								
 									<div id="Content2" class="tab-content">
 								
-										<pre class="language-python"><code>import pandas as pd
-# Fetch the mushroom dataset 
-from ucimlrepo import fetch_ucirepo 
-mushroom = fetch_ucirepo(id=73) 
+										<pre class="language-r">
+<code>library(dplyr)  
 
-# data (as pandas dataframes) 
-X = mushroom.data.features 
-y = mushroom.data.targets
+# Load the data
+mushroom <- read.table("agaricus-lepiota.data", 
+                       header = FALSE, 
+                       sep = ",")
 
-X = X.dropna()
-y = y.loc[X.index] # ensure that the same data are removed from X and y
+#Load the Variable names
+namefile <- read.delim("agaricus-lepiota.txt", 
+                       sep = "/", # to import it as a single string
+                       header = FALSE,
+                       stringsAsFactors = FALSE)
 
-pd.set_option('display.max_columns', None)
-print("Shape of y:", y.shape)
-print("Shape of X:", X.shape)
-display(X)
+# Fix the table
+trim_leading_spaces <- function(x) {
+    gsub("^\\s+", "", x)
+}
 
+namefile <- data.frame(lapply(namefile, trim_leading_spaces), stringsAsFactors = FALSE)
 
-										</code></pre>
+merge_non_numeric <- function(x) {
+    for (i in 2:length(x)) {
+        if (!grepl("^[0-9]", x[i])) {
+            x[i-1] <- paste0(x[i-1], " ", x[i])
+            x[i] <- NA
+        }
+    }
+    return(x)
+}
+namefile <- data.frame(lapply(namefile, merge_non_numeric), stringsAsFactors = FALSE)
+namefile <- data.frame(lapply(namefile, merge_non_numeric), stringsAsFactors = FALSE) #twice because of the values on 3 lines
+
+namefile <- data.frame(lapply(namefile, function(x) gsub("\\bNA\\b\\s*", "", x)))
+namefile <- na.omit(namefile)
+namefile <- namefile[apply(namefile != "", 1, all), ]
+namelist <- trimws(sub("^.{3}(.*?):.*", "\\1", namefile))
+
+#remove NA
+rows_to_delete <- apply(mushroom, 1, function(row) any(row == "?"))
+mushroom <- mushroom[!rows_to_delete, ]
+
+#Combine the two
+colnames(mushroom) <- namelist
+
+# Display
+head(mushroom,5)</code>
+								</pre>
 								
 									</div>
 									</div>
 									<br />
 									<p>The new table contains 5644 individuals once NA values are removed. As you may notice, the dataset contains only discrete, non-ordered values but that are coded with letters. It lacks clarity, and our next step is to
 										convert these letters into words. This is where the downloadable file <a href="https://archive.ics.uci.edu/dataset/73/mushroom" target="_blank">agaricus-lepiota.names</a> 
-										(renamed afterward agaricus-lepiota.txt as a copy that only features the relevant section) provided by the UCI Repository comes handy.	For example, 
-										we can read in it: <br><br>
+										(renamed afterward agaricus-lepiota.txt as a copy that only features the relevant section and we already imported it to name the columns of the previous table)
+										 provided by the UCI Repository comes handy. For example,we can read in it: <br><br>
 										<i>" 1. cap-shape: bell=b, conical=c, convex=x, flat=f, knobbed=k, sunken=s"</i><br><br>
 										We will first list for each column the possible values and their corresponding words. Then we can replace the coded values with their proper words.
 								   </p>
@@ -446,39 +478,39 @@ display(X)
 											</div>
 										
 											<div id="Content4" class="tab-content">
-												<pre class="language-python"><code>import re
+												<pre class="language-r">
+<code># Simplify the data
+namefile <- substr(namefile, 30, nchar(namefile))
+namefile <- gsub(" ", "", namefile)
+df1 <- do.call(rbind, strsplit(namefile, ","))
+rownames(df1) <- namelist
+df1 <- as.data.frame(df1)
 
-#Read the text file as a string
-with open('agaricus-lepiota.txt', 'r') as file:
-    content = file.read()
+# Create the output dataframe
+alphabet <- letters 
+new_df <- data.frame(matrix(NA, nrow=length(namelist), ncol=26, dimnames=list(namelist, alphabet)))
 
-#Extract variable names and word-letter pairs
-variables = []
-word_letter_pairs = {}
+# Fill the output dataframe
+for (i in seq_along(df1[,1])) {
+    for (j in seq_along(df1[i, ])) {
+        value <- df1[i, j]
+        last_char <- substring(value, nchar(value))  
+        if (last_char %in% alphabet) {
+            new_df[i, last_char] <- value  
+        }
+    }
+}
 
-#Regular expression to match variable names and their mappings
-variable_pattern = re.compile(r'\d+\.\s*([^:]+):\s*([\s\S]+?)(?=\d+\.|$)')
-mapping_pattern = re.compile(r'(\w+)=([a-z?])')
+# Clean the strings
+new_df <- apply(new_df, 2, function(x) {
+    trimws(substring(x, 1, nchar(x)-2))
+})
+new_df[is.na(new_df)] <- ""
 
-#Extracting each variable section
-for match in variable_pattern.finditer(content):
-    variable_name = match.group(1).strip()
-    variables.append(variable_name)
-    
-    mappings = mapping_pattern.findall(match.group(2))
-    for word, letter in mappings:
-        if letter not in word_letter_pairs:
-            word_letter_pairs[letter] = {}
-        word_letter_pairs[letter][variable_name] = word
-
-#Create a DataFrame
-code_matrix = pd.DataFrame(word_letter_pairs).T
-code_matrix = code_matrix.fillna('')
-code_matrix = code_matrix.reindex(sorted(code_matrix.index), axis=0)
-code_matrix = code_matrix[variables]
-
-display(code_matrix.head())
-												</code></pre>
+# Create a dataframe matching the letters and their corresponding words
+name_codex <- as.data.frame(t(new_df))
+head(name_codex, 5)</code>
+					</pre>
 										
 											</div>
 											</div>
@@ -495,6 +527,7 @@ display(code_matrix.head())
 													<div class="table-wrapper">
 														<table class="alt">
 																<tr>
+																	<th>poisonous</th>
 																	<th>cap-shape</th>
 																	<th>cap-surface</th>
 																	<th>cap-color</th>
@@ -521,6 +554,7 @@ display(code_matrix.head())
 															</thead>
 															<tbody>
 																<tr>
+																	<td>poisonous</td>
 																	<td>convex</td>
 																	<td>smooth</td>
 																	<td>brown</td>
@@ -545,6 +579,7 @@ display(code_matrix.head())
 																	<td>urban</td>
 																</tr>
 																<tr>
+																	<td>edible</td>
 																	<td>convex</td>
 																	<td>smooth</td>
 																	<td>yellow</td>
@@ -569,6 +604,7 @@ display(code_matrix.head())
 																	<td>grasses</td>
 																</tr>
 																<tr>
+																	<td>edible</td>
 																	<td>bell</td>
 																	<td>smooth</td>
 																	<td>white</td>
@@ -593,6 +629,7 @@ display(code_matrix.head())
 																	<td>meadows</td>
 																</tr>
 																<tr>
+																	<td>poisonous</td>
 																	<td>convex</td>
 																	<td>scaly</td>
 																	<td>white</td>
@@ -617,6 +654,7 @@ display(code_matrix.head())
 																	<td>urban</td>
 																</tr>
 																<tr>
+																	<td>edible</td>
 																	<td>convex</td>
 																	<td>smooth</td>
 																	<td>gray</td>
@@ -642,30 +680,22 @@ display(code_matrix.head())
 																</tr>
 															</tbody>
 														</table>
-														<p><i>Note: At this point the predicted variable y , in the second dataset has also been converted (cf. code snippets for more information)</i></p>
+														<p><i>Note.  We also change the type of data from strings to factors at this point.</i></p>
 													</div>
 												</div>
 											
 												<div id="Content6" class="tab-content">
-													<pre class="language-python">
-<code>def transform_dataframe(X, code_matrix):
-	transformed_X = pd.DataFrame(index=X.index, columns=X.columns)
-    
-    for col in X.columns:
-        for idx in X.index:
-            letter = X.at[idx, col]
-            try:
-                word = code_matrix.at[letter, col]
-            except KeyError:
-                raise KeyError(f"Error: The letter '{letter}' in column '{col}' was not found in code_matrix.")
-            transformed_X.at[idx, col] = word
-    
-    return transformed_X
+													<pre class="language-r">
+<code># Match the coded values with their corresponding words
+for(col in colnames(mushroom)) {
+    mushroom[[col]] <- name_codex[[col]][match(mushroom[[col]], rownames(name_codex))]
+}
 
-X = transform_dataframe(X, code_matrix)
-y = transform_dataframe(y, code_matrix) # This is not necessary immediately but this way the predicted variable are also in words
+# Convert all columns to factors
+df_factors <- as.data.frame(lapply(df, factor))
 
-display(X.head())
+# Display
+head(mushroom,5)
 											</code></pre>
 										</div>
 									</div>
@@ -689,73 +719,44 @@ display(X.head())
 										</div>
 									
 										<div id="Content7" class="tab-content">
-											<img src="images/mushmcap.jpg" alt="MCA Plot"  style="height:100%;">
+											<img src="images/mushmcar.jpg" alt="MCA Plot"  style="height:100%;">
 										</div>
 									
 										<div id="Content8" class="tab-content">
-											<pre class="language-python">
-<code>import seaborn as sns
-import matplotlib.pyplot as plt
-import prince
+											<pre class="language-r">
+<code>library(FactoMineR)
+library(ggplot2)
+library(gridExtra)
 
-# Convert all columns to 'category' type to ensure they are treated as categorical
-df = pd.concat([X, y], axis=1)
-for col in df.columns:
-    df[col] = df[col].astype('category')
+# Perform MCA on 3 dimensions
+mca_data <- MCA(mushroom[, 2:23], ncp = 3, graph = FALSE)
+ind_coords <- as.data.frame(mca_data$ind$coord)
+ind_coords$group <- mushroom[, 1]
 
-# Perform MCA with 3 dimensions
-mca = prince.MCA(
-    n_components=3,
-    n_iter=3,
-    copy=True,
-    check_input=True,
-    engine='sklearn',
-    random_state=42
-)
+# Plot for Dimensions 1 and 2
+plot1 <- ggplot(ind_coords, aes(x = `Dim 1`, y = `Dim 2`, color = group)) +
+    geom_point(size = 3, alpha = 0.5) +
+    labs(x = paste("Dimension 1 (", round(mca_data$eig[1, 2], 2), "%)", sep=""),
+         y = paste("Dimension 2 (", round(mca_data$eig[2, 2], 2), "%)", sep="")) +
+    theme_minimal(base_family = "Helvetica") +
+    theme(plot.title = element_blank(),
+          legend.position = "none") +
+    scale_color_manual(values = c("#990000", "#336633"))
 
-# Fit the model on the data excluding the 'poisonous' column
-mca = mca.fit(df.drop(columns=['poisonous']))
-mca_data = mca.transform(df.drop(columns=['poisonous']))
-mca_data['poisonous'] = df['poisonous'].values
+# Plot for Dimensions 1 and 3
+plot2 <- ggplot(ind_coords, aes(x = `Dim 1`, y = `Dim 3`, color = group)) +
+    geom_point(size = 3, alpha = 0.5) +
+    labs(x = paste("Dimension 1 (", round(mca_data$eig[1, 2], 2), "%)", sep=""),
+         y = paste("Dimension 3 (", round(mca_data$eig[3, 2], 2), "%)", sep="")) +
+    theme_minimal(base_family = "Helvetica") +
+    theme(plot.title = element_blank(),
+          legend.position = c(0.9, 0.9),
+          legend.background = element_rect(color = "black", fill = "white")) +
+    scale_color_manual(values = c("#990000", "#336633"))
 
-# Create a figure with two subplots side by side
-fig, axes = plt.subplots(1, 2, figsize=(20, 8))
-
-# Plot the MCA results for dimensions 1 and 2 on the first subplot
-sns.scatterplot(
-    ax=axes[0],
-    x=mca_data[0],
-    y=mca_data[1],
-    hue=mca_data['poisonous'],
-    palette=['green', 'red'],
-    s=100,
-    alpha=0.4
-)
-axes[0].set_xlabel('Dimension 1')
-axes[0].set_ylabel('Dimension 2')
-axes[0].legend().remove() 
-axes[0].grid(True)
-
-# Plot the MCA results for dimensions 1 and 3 on the second subplot
-sns.scatterplot(
-    ax=axes[1],
-    x=mca_data[0],
-    y=mca_data[2],
-    hue=mca_data['poisonous'],
-    palette=['green', 'red'],
-    s=100,
-    alpha=0.4
-)
-axes[1].set_xlabel('Dimension 1')
-axes[1].set_ylabel('Dimension 3')
-axes[1].legend(title='Mushroom Type')
-axes[1].grid(True)
-
-# Display the plots
-plt.tight_layout()
-plt.show()
-
-											</code></pre>
+# Display plots
+grid.arrange(plot1, plot2, ncol = 2)</code>
+									</pre>
 										</div>
 									</div>
 									<br>
@@ -797,13 +798,13 @@ plt.show()
 													</tr>
 													<tr>
 														<td>Edible</td>
-														<td>693</td>
+														<td>697</td>
 														<td>0</td>
 													</tr>
 													<tr>
 														<td>Poisonous</td>
 														<td>0</td>
-														<td>436</td>
+														<td>431</td>
 													</tr>
 												</table>
 											<p>The model is 100.00% accurate.</p>
@@ -811,52 +812,29 @@ plt.show()
 									</div>
 
 									<div id="Content10" class="tab-content">
-										<pre class="language-python">
-<code>from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import confusion_matrix
+										<pre class="language-r">
+<code>library(randomForest)
+library(caret)
 
-# Initialize label encoders
-label_encoders = {}
+set.seed(123)
 
-# Encode all columns in X
-for column in X.columns:
-    le = LabelEncoder()
-    X[column] = le.fit_transform(X[column])
-    label_encoders[column] = le
+# Data Split
+mushroom[, 1] <- as.factor(mushroom[, 1])
+index <- createDataPartition(mushroom[,1], p = 0.8, list = FALSE)
+train_data <- mushroom[index, ]
+test_data <- mushroom[-index, ]
 
-# Encode the target variable y
-le_y = LabelEncoder()
-y = le_y.fit_transform(y)
+# Create a random forest model
+rf_model <- randomForest(train_data[, -1], train_data[, 1], ntree = 10)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
+# Test the accuracy of the model
+predictions <- predict(rf_model, test_data[, -1])
+confusion_matrix <- table(predictions, test_data[, 1])
+confusion_matrix
 
-# Initialize the Random Forest classifier with 10 trees
-rf_classifier = RandomForestClassifier(n_estimators=10, random_state=123)
-
-# Train the classifier
-rf_classifier.fit(X_train, y_train)
-
-# Predict on the test data
-y_pred = rf_classifier.predict(X_test)
-
-# Create a confusion matrix
-conf_matrix = confusion_matrix(y_test, y_pred)
-
-# Convert confusion matrix to DataFrame for better readability
-conf_matrix_df = pd.DataFrame(conf_matrix, 
-                              index=le_y.classes_, 
-                              columns=le_y.classes_)
-
-# Display the confusion matrix
-print(f"Out of {len(y_test)} individuals tested, the model yields the following results:")
-
-print(conf_matrix_df)
-
-# Calculate the accuracy
-accuracy = ((conf_matrix[0, 0] + conf_matrix[1, 1]) / conf_matrix.sum())*100
-print(f"The model is {accuracy:.2f}% accurate.")</code>
+# Calculate accuracy
+accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix) * 100
+cat(sprintf("The model is %.2f%% accurate\n", accuracy))</code>
 										</pre>
 									</div>
 								</div>
@@ -867,10 +845,10 @@ print(f"The model is {accuracy:.2f}% accurate.")</code>
 
 								<p>
 									To make the model accessible to everyone, we will create a web application that allows users to input the characteristics of a mushroom and 
-									get a prediction of whether it is edible or poisonous. We will use the Dash Plotly framework to create the application. The application will 
+									get a prediction of whether it is edible or poisonous. We will use the Shiny R framework to create the application. The application will 
 									consist of a simple form where users can input the characteristics of the mushroom, and a button to submit the form. Once the form is submitted, 
 									the application will use the trained Random Forest model to make a prediction and display the result to the user. The application was built using 
-									Dash, hosted on Google Cloud, and can be accessed <a href="https://mushroom-roeb4awd7a-ew.a.run.app" target="_blank">here</a>.
+									Shiny, hosted on the Shiny website, and can be accessed <a href="https://vittozcy.shinyapps.io/mush/" target="_blank">here</a>.
 								</p>
 
 								<div id="tab-container-6" class="tab-container">
@@ -879,125 +857,98 @@ print(f"The model is {accuracy:.2f}% accurate.")</code>
 										<button class="tab-link" onclick="openTab(event, 'Content12', 'tab-container-6')">Code</button>
 									</div>
 									<div id="Content11" class="tab-content">
-										<iframe class="responsive-iframe" src="https://mushroom-roeb4awd7a-ew.a.run.app" width="940px" height="610px" frameborder="0" allowfullscreen></iframe>
+										<iframe class="responsive-iframe" src="https://vittozcy.shinyapps.io/mush/" width="940px" height="515px" frameborder="0" allowfullscreen></iframe>
 									</div>
 									<div id="Content12" class="tab-content">
-										<pre class="language-python">
+										<pre class="language-r">
 <code># Import necessary modules
-import dash
-import numpy as np
-import plotly.graph_objects as go
-from dash import dcc, html
-from dash.dependencies import Input, Output, State
-import io
-import base64
+library(shiny)
+library(shinyjs)
+library(shinythemes)
 
-# Initialize Dash app
-app = dash.Dash(__name__)
+# Define the UI
+ui <- (...)
 
-# Design of the web app
-(...)
-
-# Callback to toggle sidebar visibility
-@app.callback(
-    Output('sidebar', 'style'),
-    [Input('toggle-button', 'n_clicks')],
-    [State('sidebar', 'style')]
-)
-def toggle_sidebar(n_clicks, sidebar_style):
-    if n_clicks % 2 == 1:
-        sidebar_style['display'] = 'block'
-    else:
-        sidebar_style['display'] = 'none'
-    return sidebar_style
-
-@app.callback(
-    [
-        Output('output-title', 'children'),
-        Output('heatmap-output', 'figure')
-    ],
-    [Input('compute-button', 'n_clicks')],
-    [
-        State(f'dropdown-{variable}', 'value') for variable in X.columns
-    ]
-)
-def update_output(n_clicks, *dropdown_values):
-    selected_values = {variable: value for variable, value in zip(X.columns, dropdown_values)}
-
-    if selected_values:
-        X_test_mod = X_test.copy()
-        for variable, value in selected_values.items():
-            X_test_mod[variable] = value
-
-        # Get predictions from each tree in the forest
-        y_preds = [tree.predict(X_test_mod) for tree in rf_classifier.estimators_]
-
-        # For simplicity, we visualize predictions for the first sample
-        first_sample_predictions = np.array([pred[0] for pred in y_preds]).reshape(2, 5)
-
-        # Determine overall prediction
-        overall_prediction = np.round(np.mean(first_sample_predictions), 0).astype(int)
-        if overall_prediction == 0:
-            overall_prediction_label = html.Span(
-                children=["😋", " This Mushroom is Edible ", "😋"],
-                style={'color': 'green', 'font-size': '50px', 'font-family': 'Helvetica'}
-            )
-        else:
-            overall_prediction_label = html.Span(
-                children=["💀", " This Mushroom is Poisonous ", "💀"],
-                style={'color': 'red', 'font-size': '50px', 'font-family': 'Helvetica'}
-            )
-
-        # Create a Plotly figure for the heatmap
-        fig = go.Figure(data=go.Heatmap(
-            z=first_sample_predictions,
-            x=[f'Tree {i+1}' for i in range(5)],
-            y=['Row 1', 'Row 2'],
-            colorscale=[[0, 'green'], [1, 'red']],
-            showscale=False,
-            hoverinfo='text',
-            zmin=0,
-            zmax=1,
-        ))
-
-        # Define annotations for each tree
-        annotations = []
-        for i in range(2):
-            for j in range(5):
-                tree_number = ((i+1) * 5 + j + 1) %10
-                if tree_number == 0:
-                    tree_number = 10
-                tree_value = first_sample_predictions[i, j]
-                annotation_text = f'Tree {tree_number} <br><br> 😋' if tree_value == 0 else f'Tree {tree_number} <br><br> 💀'
-                annotations.append(
-                    dict(
-                        x=j,
-                        y=i,
-                        xref='x',
-                        yref='y',
-                        text=annotation_text,
-                        showarrow=False,
-                        font=dict(family='Helvetica, sans-serif', size=40, color='white')
+# Define the server logic
+server <- function(input, output, session) {
+    
+    # Trigger the predict button on app load
+    observe({
+        shinyjs::click("predict_button")
+    })
+    
+    observeEvent(input$predict_button, {
+        
+        # Gather the input values into a new data frame with the same structure as train_data
+        new_data <- as.data.frame(t(sapply(2:ncol(mushroom), function(i) {
+            input[[paste0("var_", i)]]
+        })))
+        
+        # Set column names to match the training data
+        colnames(new_data) <- colnames(mushroom)[-1]
+        
+        # Convert the data frame to factor and set levels to match training data
+        for (i in 1:ncol(new_data)) {
+            new_data[, i] <- factor(new_data[, i], levels = levels(mushroom[, i + 1]))
+        }
+        
+        # Predict using the random forest model
+        prediction <- predict(rf_model, newdata = new_data)
+        
+        # Display the prediction with appropriate color
+        output$prediction <- renderText({
+            if (prediction == "edible") {
+                shinyjs::html(id = "prediction-output", html = "<h1 style='color:green;'>😋 This mushroom is edible 😋</h1>")
+            } else {
+                shinyjs::html(id = "prediction-output", html = "<h1 style='color:red;'>💀 This mushroom is poisonous 💀</h1>")
+            }
+            NULL  # Return NULL because we directly modify the DOM
+        })
+        
+        # Create the heatmap based on individual tree predictions
+        individual_predictions <- predict(rf_model, newdata = new_data, predict.all = TRUE)$individual
+        
+        # Convert predictions to a data frame for ggplot
+        heatmap_data <- data.frame(Tree = 1:ncol(individual_predictions),
+                                   Row = rep(1:2, each = 5),
+                                   Col = rep(1:5, times = 2),
+                                   Prediction = factor(ifelse(individual_predictions == "edible", "edible", "poisonous"),
+                                                       levels = c("poisonous", "edible")))
+        
+        # Render custom heatmap using ggplot2
+        output$heatmap <- renderPlot({
+            ggplot(heatmap_data, aes(x = factor(Col), y = factor(Row), fill = Prediction)) +
+                geom_tile(color = "grey", size = 0.5) +
+                scale_fill_manual(values = c("poisonous" = "red4", "edible" = "green4")) +
+                geom_text(aes(
+                    label = paste(
+                        "Tree", 
+                        ifelse(abs((Row +1) * 5 + Col - 5) %% 10 == 0, 10, abs((Row +1) * 5 + Col - 5) %% 10),
+                        ifelse(
+                            individual_predictions[
+                                ifelse(abs((Row +1) * 5 + Col ) %% 10 == 0, 10, abs((Row +1) * 5 + Col ) %% 10)
+                            ] == "poisonous", 
+                            "\n 💀", 
+                            "\n 😋"
+                        )
                     )
+                ), color = "white", size = 12) +
+                theme_void() +
+                theme(
+                    legend.position = "none",
+                    plot.title = element_text(hjust = 0.5, size = 14),
+                    plot.background = element_rect(fill = "transparent", color = NA),
+                    panel.background = element_rect(fill = "transparent", color = NA),
+                    plot.margin = unit(c(0, 0, 0, 0), "cm")
                 )
+        })
+        
+        
+    })
+}
 
-        fig.update_layout(
-            annotations=annotations,
-            font=dict(family='Helvetica, sans-serif'),
-            xaxis=dict(ticks='', showticklabels=False, showgrid=False, zeroline=False, showline=False),
-            yaxis=dict(ticks='', showticklabels=False, showgrid=False, zeroline=False, showline=False),
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            margin=dict(l=0, r=0, t=0, b=0)
-        )
-
-        return overall_prediction_label, fig
-
-    return "Select a Variable and Category", go.Figure()
-
-# Run the app
-if __name__ == '__main__':
-    app.run_server(debug=True)</code>
+# Run the application
+shinyApp(ui = ui, server = server)</code>
 											</pre>
 										</div>
 									</div>	
@@ -1025,9 +976,12 @@ if __name__ == '__main__':
 									<h3>References</h3>
 									<ul>
 										<li><a href="https://archive.ics.uci.edu/ml/datasets/mushroom">UCI Machine Learning Repository: Mushroom Data Set</a></li>
-										<li><a href="https://scikit-learn.org/stable/documentation.html">Scikit-learn Documentation</a></li>
-										<li><a href="https://plotly.com/python/">Plotly Documentation</a></li>
-										<li><a href="https://dash.plotly.com/">Dash Documentation</a></li>
+										<li><a href="https://cran.r-project.org/web/packages/MCA/index.html">MCA</a></li>
+										<li><a href="https://cran.r-project.org/web/packages/caret/index.html">Caret</a></li>
+										<li><a href="https://cran.r-project.org/web/packages/FactoMineR/index.html">FactoMineR</a></li>
+										<li><a href="https://cran.r-project.org/web/packages/randomForest/index.html">RandomForest</a></li>
+										<li><a href="https://cran.r-project.org/web/packages/ggplot2/index.html">ggplot2</a></li>
+										<li><a href="https://shiny.rstudio.com/">shiny app</a></li>
 									</ul>
 								</div>
 							</section>
