@@ -286,3 +286,76 @@ function openTab(evt, tabName, containerId) {
     
     Prism.highlightAll(); // Reinitialize Prism.js after switching tabs
 }
+
+// Function to go back to the right index
+function goBackToReferrer() {
+    const referrer = document.referrer;
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromIndex = urlParams.get('from'); // Get the 'from' parameter from the URL
+
+    if (fromIndex) {
+        // Add #header to ensure it scrolls to the header section
+        window.location.href = fromIndex + '#header';
+    } else if (referrer.includes('index.html')) {
+        window.location.href = 'index.html#header';
+    } else if (referrer.includes('R_index.html')) {
+        window.location.href = 'R_index.html#header';
+    } else if (referrer.includes('Power_Bi_index.html')) {
+        window.location.href = 'Power_Bi_index.html#header';
+    } else if (referrer.includes('SQL_index.html')) {
+        window.location.href = 'SQL_index.html#header';
+    } else if (referrer.includes('Tableau_index.html')) {
+        window.location.href = 'Tableau_index.html#header';
+    } else {
+        window.location.href = 'index.html#header'; // Fallback in case no referrer is found
+    }
+}
+
+function setActiveNavItem() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromIndex = urlParams.get('from'); // Get the 'from' parameter from the URL
+    const currentUrl = window.location.href; // Get the full current URL including the hash
+
+    // Get the filename from the current URL (e.g., "index.html", "R_index.html", "About_me.html")
+    const currentPage = currentUrl.split('/').pop().split('#')[0]; // Extracts the current page name without the hash
+
+    // Remove 'active' class from all nav items
+    document.querySelectorAll('.links li').forEach(item => item.classList.remove('active'));
+
+    // Determine the active link based on 'from' parameter or current page
+    if (fromIndex) {
+        // If the 'from' parameter is present, use it to set the active class
+        if (fromIndex === 'index.html') {
+            document.getElementById('nav-python').classList.add('active');
+        } else if (fromIndex === 'R_index.html') {
+            document.getElementById('nav-r').classList.add('active');
+        } else if (fromIndex === 'Power_Bi_index.html') {
+            document.getElementById('nav-powerbi').classList.add('active');
+        } else if (fromIndex === 'SQL_index.html') {
+            document.getElementById('nav-sql').classList.add('active');
+        } else if (fromIndex === 'Tableau_index.html') {
+            document.getElementById('nav-tableau').classList.add('active');
+        } else if (fromIndex === 'About_me.html') {
+            document.getElementById('nav-about').classList.add('active');
+        }
+    } else {
+        // If there's no 'from' parameter, check the current page name
+        if (currentPage === 'index.html') {
+            document.getElementById('nav-python').classList.add('active');
+        } else if (currentPage === 'R_index.html') {
+            document.getElementById('nav-r').classList.add('active');
+        } else if (currentPage === 'Power_Bi_index.html') {
+            document.getElementById('nav-powerbi').classList.add('active');
+        } else if (currentPage === 'SQL_index.html') {
+            document.getElementById('nav-sql').classList.add('active');
+        } else if (currentPage === 'Tableau_index.html') {
+            document.getElementById('nav-tableau').classList.add('active');
+        } else if (currentPage === 'About_me.html') {
+            document.getElementById('nav-about').classList.add('active');
+        }
+    }
+}
+
+// Call the function to set the active navigation item
+setActiveNavItem();
+

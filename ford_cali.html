@@ -10,23 +10,13 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link href="assets/css/prism.css" rel="stylesheet" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
 
 		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
-
-				<!-- Intro -->
-					<div id="intro">
-						<h1>Cyprien C. Vittoz</h1>
-						<h2>Junior Data Analyst</h2>
-						<p>Full time assistant researcher and programmer with 2 years of experience in R and Python <br>
-						applied to industry and social sciences</a>.</p>
-						<ul class="actions">
-							<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
-						</ul>
-					</div>
+			<div id="wrapper">
 
 				<!-- Header -->
 					<header id="header">
@@ -43,6 +33,7 @@
 						<li id="nav-sql"><a href="SQL_index.html#header">SQL</a></li>
 						<li id="nav-about" class="right-aligned"><a href="About_me.html#header">About Me</a></li>
 					</ul>
+					
 					<ul class="icons">
 						<li><a href="https://www.linkedin.com/in/vittozcyprien/" class="icon brands fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
 					</ul>
@@ -50,69 +41,37 @@
 
 				<!-- Main -->
 					<div id="main">
+					
+						<ul class="actions" style="display: flex; justify-content: space-between; width: 100%;">
+							<li><a href="javascript:void(0);" class="button small" onclick="goBackToReferrer();">< Other Projects</a></li>
+						</ul>	
+					
+						<!-- Post -->
+						<section class="post">
+							<header class="major">
+								<h2>Ford California Market Analysis</h2>
+								<p>This project aims to analyze the California market for Ford using official car sales numbers, Ford dealership locations, 
+									and counties economic and social metrics. The aim is to provide insights on where Ford should open new dealerships. This simulates a 
+									scenario for a Ford sales analyst or a competitor's analyst anticipating Ford's next move.
+								</p>
+							</header>
+							<div class="image main"><img src="images/ford.jpg" alt="" /></div>
 
-						<!-- Featured Post -->
-							<article class="post featured">
-								<header class="major">
-									<span class="date">Last Python Project</span>
-									<h2><a href="#">Work in Progress</a></h2>
-									<p>If you see this website, it isn't in its final version and frequent changes are made everyday.</p>
-								</header>
-								<a href="#" class="image main"><img src="images/pic01.jpg" alt="" /></a>
-								<ul class="actions special">
-									<li><a href="#" class="button large">View Project</a></li>
-								</ul>
-							</article>
+							<ul class="actions">
+								<li><a href="#introford" class="button small">Introduction</a></li>
+								<li><a href="#dealerford" class="button small">Web Scrapping</a></li>
+								<li><a href="#seford" class="button small">Socio-Economic Metrics</a></li>
+								<li><a href="#dataford" class="button small">Dataset</a></li>
+								<li><a href="#dashford" class="button small">Dashboard</a></li>
+							</ul>
+							<hr />
+							<h3 id="introford">Introduction</h3>
+							<p>
 
-						<!-- Posts -->
-							<section class="posts">
-								<article>
-									<header>
-										<span class="date">ML - Random Forest - Dash</span>
-										<h2><a href="mushroom_python.html?from=index.html#header">Mushroom Toxicity Predictor</h2>
-									</header>
-									<a href="mushroom_python.html?from=index.html#header" class="image fit"><img src="images/mushroom.jpg" alt="" /></a>
-									<p style="text-align: center;">Should you eat the mushroom you just found? </br >Find out with this tool.</p>
-									<ul class="actions special">
-										<li><a href="mushroom_python.html?from=index.html#header" class="button">View Project</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">ML - Naive Bayes - Dash</span>
-										<h2><a href="#">EU4 Battle Outcome Predictor</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/eu4.jpg" alt="" /></a>
-									<p style="text-align: center;">Battles are complex, not so much when you know your opponent.</p>
-									<ul class="actions special">
-										<li><a href="#" class="button">View Project</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">Web Scrapping - BeautifulSoup</span>
-										<h2><a href="ford_cali.html?from=index.html#header">Ford California Market Analysis</a></h2>
-									</header>
-									<a href="ford_cali.html?from=index.html#header" class="image fit"><img src="images/ford.jpg" alt="" /></a>
-									<p style="text-align: center;">California is a flourishing car market, learn where to open a new car dealership.</p>
-									<ul class="actions special">
-										<li><a href="ford_cali.html?from=index.html#header" class="button">View Project</a></li>
-									</ul>
-								</article>
-								
-							</section>
+							</p>
+						</section>
 
-						<!-- Footer -->
-							<footer>
-								<div class="pagination">
-									<!--<a href="#" class="previous">Prev</a>-->
-									<a href="#" class="page active">1</a>
-									<a href="#" class="page">2</a>
-									<a href="#" class="page">3</a>
-								</div>
-							</footer>
-
-					</div>
+					</div>					
 
 				<!-- Footer -->
 					<footer id="footer">
@@ -169,6 +128,12 @@
 			</div>
 
 		<!-- Scripts -->
+			<script>
+				document.addEventListener("DOMContentLoaded", function() {
+					Prism.highlightAll();
+				});
+			</script>
+			<script src="assets/js/prism.js"></script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
@@ -176,6 +141,5 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
 	</body>
 </html>
