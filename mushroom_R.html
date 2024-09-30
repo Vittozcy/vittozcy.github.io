@@ -56,14 +56,14 @@
 								</header>
 								<div class="image main"><img src="images/mushroom2.jpg" alt="" /></div>
 								<ul class="actions">
-									<li><a href="#intromushp" class="button small">Introduction</a></li>
-									<li><a href="#datamushp" class="button small">Data</a></li>
-									<li><a href="#vizmushp" class="button small">Exploration</a></li>
-									<li><a href="#descmushp" class="button small">Model</a></li>
-									<li><a href="#webmushp" class="button small">Web App</a></li>
+									<li><a href="#intromushr" class="button small">Introduction</a></li>
+									<li><a href="#datamushr" class="button small">Data</a></li>
+									<li><a href="#vizmushr" class="button small">Exploration</a></li>
+									<li><a href="#descmushr" class="button small">Model</a></li>
+									<li><a href="#webmushr" class="button small">Web App</a></li>
 								</ul>
 								<hr />
-								<h3 id="intromushp">Introduction</h3>
+								<h3 id="intromushr">Introduction</h3>
 								<p>Before delving into this project, it's important to clarify what we aim to achieve and the means by which we plan to do so. Imagine being lost in a forest
 									 or locked inside a laboratory with a bunch of mushrooms. In the first few days, we might survive on the water from the mushrooms, but eventually, we will 
 									 need to eat them. The problem is that some mushrooms are toxic and could harm or kill us. Therefore, we need to find a way to differentiate between toxic 
@@ -75,7 +75,7 @@
 									and make it accessible to everyone. For practicality, this will be presented as a web application, but the app can easily be downloaded and used offline.
 								</p>
 								<hr />
-								<h3 id="datamushp">Data</h3>
+								<h3 id="datamushr">Data</h3>
 								<p>
 									The data used in this project is the <a href="https://archive.ics.uci.edu/dataset/73/mushroom" target="_blank">Mushroom Classification</a> dataset from UCI 
 									Machine Learning Repository. It includes descriptions of gilled mushroom species in the Agaricus and Lepiota families, first documented in 
@@ -705,7 +705,7 @@ head(mushroom,5)
 									<br>
 									<p>This concludes this section. Now that we have a readable dataset, we can proceed to visualizing what kind of data we are dealing with.</p>
 									<hr />
-									<h3 id="vizmushp">Data Exploration</h3>
+									<h3 id="vizmushr">Data Exploration</h3>
 
 									<p>
 										Given the large number of variables (22), it is quite complex to observe all their relationships. Therefore, we will simplify our search 
@@ -773,7 +773,7 @@ grid.arrange(plot1, plot2, ncol = 2)</code>
 										Random Forest Classifier, would be a good choice for this dataset. We can also expect the model to have relatively high accuracy.
 									</p>
 									<hr />
-									<h3 id="descmushp">Model</h3>
+									<h3 id="descmushr">Model</h3>
 
 									<p>
 										Now that we have a better understanding of the data, we can proceed with model building. We will use a Random Forest, a non-linear 
@@ -844,7 +844,7 @@ cat(sprintf("The model is %.2f%% accurate\n", accuracy))</code>
 
 								<hr />
 
-								<H3 id="webmushp">Web App</H3>
+								<H3 id="webmushr">Web App</H3>
 
 								<p>
 									To make the model accessible to everyone, we will create a web application that allows users to input the characteristics of a mushroom and 

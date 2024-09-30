@@ -1,0 +1,999 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Cyprien Vittoz Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link href="assets/css/prism.css" rel="stylesheet" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo">Cyprien C. Vittoz</a>
+					</header>
+
+				<!-- Nav -->
+				<nav id="nav">
+					<ul class="links">
+						<li id="nav-python"><a href="index.html#header">Python</a></li>
+						<li id="nav-r"><a href="R_index.html#header">R</a></li>
+						<li id="nav-powerbi"><a href="Power_Bi_index.html#header">Power Bi</a></li>
+						<li id="nav-tableau"><a href="Tableau_index.html#header">Tableau</a></li>
+						<li id="nav-sql"><a href="SQL_index.html#header">SQL</a></li>
+						<li id="nav-about" class="right-aligned"><a href="About_me.html#header">About Me</a></li>
+					</ul>
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/vittozcyprien/" class="icon brands fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+					
+						<ul class="actions" style="display: flex; justify-content: space-between; width: 100%;">
+							<li><a href="index.html#nav" class="button small">< Other Python Projects</a></li>
+							<li><a href="eu4_R.html?from=R_index.html#header" class="button small">Same Project in R ></a></li>
+						</ul>						
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<h2>EU4 Battle Outcome Predictor</h2>
+									<p>In this project, we will implement a logistic regression model in Python to predict the outcome of battles in EU4 
+										based on the armies characteristics and build a web application to make the model accessible to anyone.
+									</p>
+								</header>
+								<div class="image main"><img src="images/eu4.jpg" alt="" /></div>
+								<ul class="actions">
+									<li><a href="#introeu4p" class="button small">Introduction</a></li>
+									<li><a href="#dataeu4p" class="button small">Data</a></li>
+									<li><a href="#vizeu4p" class="button small">Exploration</a></li>
+									<li><a href="#desceu4p" class="button small">Model</a></li>
+									<li><a href="#webeu4p" class="button small">Web App</a></li>
+								</ul>
+								<hr />
+								<h3 id="introeu4p">Introduction</h3>
+								<p>
+									I've been a player of <i>Europa Universalis</i> (EU4 for short) for eight years, starting back in 2016. Like many grand strategy video games, EU4 has a steep learning curve,
+									 often complex for newer players to overcome. It can take hundreds, even thousands of hours to master some of its mechanics. Starting in 1444, governing a country on the 
+									 brink of the Renaissance, land warfare is central to the game and perhaps its most important mechanic. The rule is simple: "kill or be killed". Building a powerful army 
+									 is necessary to ensure survival. However, choices must be made: Should you prioritize a large but low-quality army or a small, well-trained battalion? Should you build 
+									 large infantry, cavalry, or artillery regiments? Should you focus on the morale or discipline of your army? And, more importantly, which wars should you choose to wage?
+								</p>
+								
+								<p>
+									To answer these questions, I gathered data from a game I played as an "observer", meaning the AI controlled all the countries while I simply watched them fight. This choice 
+									was made to eliminate any bias from my part. Had I played a country, the data would have been influenced by (1) my playstyle—perhaps I would have engaged the same types of 
+									armies repeatedly and avoided others; (2) the unique bonuses and maluses of countries I would have played; and (3) my ability to observe the entire world from the beginning, 
+									instead of discovering some regions later in the game, potentially missing most of the battles that took place there.
+								</p>
+								<hr />
+								<h3 id="dataeu4p">Data</h3>
+								<p>
+									I observed 509 battles and took notes on the various characteristics of each army and the outcome of the battle. Additionally, after reading the 
+									<a href="https://eu4.paradoxwikis.com/Land_warfare" target="blank">wiki page</a> on land warfare, it dawned on me that the battle system is almost perfectly symmetrical, 
+									with only the terrain malus applied to one side. This means that, for the same characteristics (in neutral terrain), the same army—whether positioned offensively or 
+									defensively—will win. Thus, if the terrain malus is counted as a bonus for the opposing side, every observation is symmetrical and can be viewed from the reversed 
+									perspective (the attacker seen as the defender and vice versa), effectively doubling the amount of observations to 1,018.
+								</p>
+									
+								<p>
+									Therefore, this dataset contains 1018 rows and 18 columns without any NA value which look like this:
+								</p>
+
+								<div id="tab-container-1" class="tab-container">
+									<div class="tabs">
+										<button class="tab-link" onclick="openTab(event, 'Content1','tab-container-1')">Table</button>
+										<button class="tab-link" onclick="openTab(event, 'Content2','tab-container-1')">Code</button>
+									</div>
+								
+									<div id="Content1" class="tab-content">
+										<div class="table-wrapper">
+											<table  class="alt">
+												<tr>
+													<th>mil_tech_at</th>
+													<th>mil_tech_df</th>
+													<th>inf_qt_at</th>
+													<th>cav_qt_at</th>
+													<th>art_qt_at</th>
+													<th>inf_qt_df</th>
+													<th>cav_qt_df</th>
+													<th>art_qt_df</th>
+													<th>moral_at</th>
+													<th>moral_df</th>
+													<th>discipline_at</th>
+													<th>discipline_df</th>
+													<th>gen_fire_at</th>
+													<th>gen_shock_at</th>
+													<th>gen_fire_df</th>
+													<th>gen_shock_df</th>
+													<th>terrain_malus</th>
+													<th>win</th>
+												  </tr>
+												  <tr>
+													<td>3</td>
+													<td>3</td>
+													<td>10</td>
+													<td>3</td>
+													<td>0</td>
+													<td>6</td>
+													<td>2</td>
+													<td>0</td>
+													<td>2.9</td>
+													<td>2.9</td>
+													<td>100</td>
+													<td>100</td>
+													<td>2</td>
+													<td>3</td>
+													<td>1</td>
+													<td>5</td>
+													<td>2</td>
+													<td>yes</td>
+												  </tr>
+												  <tr>
+													<td>3</td>
+													<td>3</td>
+													<td>3</td>
+													<td>1</td>
+													<td>0</td>
+													<td>5</td>
+													<td>1</td>
+													<td>0</td>
+													<td>2.9</td>
+													<td>2.6</td>
+													<td>105</td>
+													<td>110</td>
+													<td>3</td>
+													<td>2</td>
+													<td>0</td>
+													<td>1</td>
+													<td>1</td>
+													<td>no</td>
+												  </tr>
+												  <tr>
+													<td>3</td>
+													<td>3</td>
+													<td>4</td>
+													<td>0</td>
+													<td>0</td>
+													<td>3</td>
+													<td>1</td>
+													<td>0</td>
+													<td>3.4</td>
+													<td>2.8</td>
+													<td>100</td>
+													<td>100</td>
+													<td>0</td>
+													<td>2</td>
+													<td>5</td>
+													<td>3</td>
+													<td>1</td>
+													<td>yes</td>
+												  </tr>
+												  <tr>
+													<td>3</td>
+													<td>3</td>
+													<td>3</td>
+													<td>0</td>
+													<td>0</td>
+													<td>3</td>
+													<td>1</td>
+													<td>0</td>
+													<td>2.6</td>
+													<td>2.6</td>
+													<td>100</td>
+													<td>100</td>
+													<td>1</td>
+													<td>2</td>
+													<td>2</td>
+													<td>0</td>
+													<td>1</td>
+													<td>no</td>
+												  </tr>
+												  <tr>
+													<td>3</td>
+													<td>3</td>
+													<td>13</td>
+													<td>4</td>
+													<td>0</td>
+													<td>10</td>
+													<td>4</td>
+													<td>0</td>
+													<td>2.9</td>
+													<td>2.6</td>
+													<td>100</td>
+													<td>100</td>
+													<td>0</td>
+													<td>0</td>
+													<td>0</td>
+													<td>2</td>
+													<td>2</td>
+													<td>yes</td>
+												  </tr>
+											</table>
+											<pre><code>df_expanded: (1016, 18)</code></pre>
+											
+										</div>
+									</div>
+								
+									<div id="Content2" class="tab-content">
+								
+										<pre class="language-python"><code>import pandas as pd
+
+# Import data from the excel file
+df = pd.read_excel('data_eu4.xlsx')
+
+# Expand the values
+def swap_roles(row):
+    new_row = row.copy()
+    
+    for col in row.index:
+        if '_at' in col:
+            df_col = col.replace('_at', '_df')
+            new_row[col] = row[df_col]
+            new_row[df_col] = row[col]
+    
+    new_row['terrain_malus'] = -1 * row['terrain_malus']
+    new_row['win'] = 'no' if row['win'] == 'yes' else 'yes'
+    return new_row
+
+new_rows = df.apply(swap_roles, axis=1)
+df_expanded = pd.concat([df, new_rows], ignore_index=True)
+
+#Display the resulting dataframe
+display(df_expanded.head())</code></pre>
+								
+									</div>
+									</div>
+									<br>
+									<p>
+										The variables can be explained as follows:</p><ul>
+										<li>Tech: Technological level of participants; same bonus if levels match. (1 to 32)</li>
+										<li>Inf/Cav/Art Quantity: Army composition, the number of regiments. (0 to infinity)</li>
+										<li>Moral : Higher moral increases damage and defense. (0 to 14.7)</li>
+										<li>Discipline: Starts at 100, modified. (90 to 182.5%)</li>
+										<li>Next four columns: General stats, random on recruitment. (0 to 6)</li>
+										<li>Terrain: Attacker malus based on terrain type. (0 to 4)</li>
+										<li>Outcome: "Yes" attacker win, "No" defender win. (Yes/No)</li>
+									</ul>
+									<p>
+										As observed, most variables are duplicates between the two opposing side characteristics and can be simplified as a relative values obtained by comparing the
+										attacker stats to the defender stats. This would reduce the dataset to 10 variables:
+									</p>
+
+								   <div id="tab-container-2" class="tab-container">
+									<div class="tabs">
+										<button class="tab-link" onclick="openTab(event, 'Content3', 'tab-container-2')">Table</button>
+										<button class="tab-link" onclick="openTab(event, 'Content4', 'tab-container-2')">Code</button>
+									</div>
+								
+									<div id="Content3" class="tab-content">
+										<div class="table-wrapper">
+											<table class="alt">
+												<tr>
+													<th>tech</th>
+													<th>inf_ratio</th>
+													<th>cav_ratio</th>
+													<th>art_ratio</th>
+													<th>moral</th>
+													<th>discipline</th>
+													<th>gen_shock</th>
+													<th>gen_def</th>
+													<th>terrain</th>
+													<th>win</th>
+												  </tr>
+												  <tr>
+													<td>0</td>
+													<td>4</td>
+													<td>1</td>
+													<td>0</td>
+													<td>0.0</td>
+													<td>0.0</td>
+													<td>1</td>
+													<td>-2</td>
+													<td>2</td>
+													<td>1</td>
+												  </tr>
+												  <tr>
+													<td>0</td>
+													<td>-2</td>
+													<td>0</td>
+													<td>0</td>
+													<td>0.3</td>
+													<td>-0.5</td>
+													<td>3</td>
+													<td>1</td>
+													<td>1</td>
+													<td>0</td>
+												  </tr>
+												  <tr>
+													<td>0</td>
+													<td>1</td>
+													<td>-1</td>
+													<td>0</td>
+													<td>0.6</td>
+													<td>0.0</td>
+													<td>-5</td>
+													<td>-1</td>
+													<td>1</td>
+													<td>1</td>
+												  </tr>
+												  <tr>
+													<td>0</td>
+													<td>0</td>
+													<td>-1</td>
+													<td>0</td>
+													<td>0.0</td>
+													<td>0.0</td>
+													<td>-1</td>
+													<td>2</td>
+													<td>1</td>
+													<td>0</td>
+												  </tr>
+												  <tr>
+													<td>0</td>
+													<td>3</td>
+													<td>0</td>
+													<td>0</td>
+													<td>0.3</td>
+													<td>0.0</td>
+													<td>0</td>
+													<td>-2</td>
+													<td>2</td>
+													<td>1</td>
+												  </tr>
+											  </table>
+											  <i>Note: The discipline values have been divided by 10 to avoid wide intervals and the outcome has been changed into binary values (1=yes, 0=no)</i>
+												</div>
+											</div>
+										
+											<div id="Content4" class="tab-content">
+												<pre class="language-python"><code># Create a new dataframe with relative values
+df_relative = pd.DataFrame({
+    'tech': df_expanded['mil_tech_at'] - df_expanded['mil_tech_df'],
+    'inf_ratio': df_expanded['inf_qt_at'] - df_expanded['inf_qt_df'],
+    'cav_ratio': df_expanded['cav_qt_at'] - df_expanded['cav_qt_df'],
+    'art_ratio': df_expanded['art_qt_at'] - df_expanded['art_qt_df'],
+    'moral': df_expanded['moral_at'] - df_expanded['moral_df'],
+    'discipline': (df_expanded['discipline_at'] - df_expanded['discipline_df']) / 10,
+    'gen_shock': df_expanded['gen_fire_at'] - df_expanded['gen_fire_df'],
+    'gen_def': df_expanded['gen_shock_at'] - df_expanded['gen_shock_df'],
+    'terrain': df_expanded['terrain_malus'],
+    'win': df_expanded['win'].apply(lambda x: 1 if x == 'yes' else 0)
+})
+
+display(df_relative.head())</code></pre>
+										
+											</div>
+											</div>
+											<br>
+											<br>
+											<p>Now we can apply these transformations to the dataset itself:</p>
+											<div id="tab-container-3" class="tab-container">
+												<div class="tabs">
+													<button class="tab-link" onclick="openTab(event, 'Content5', 'tab-container-3')">Table</button>
+													<button class="tab-link" onclick="openTab(event, 'Content6', 'tab-container-3')">Code</button>
+												</div>
+											
+												<div id="Content5" class="tab-content">
+													<div class="table-wrapper">
+														<table class="alt">
+																<tr>
+																	<th>cap-shape</th>
+																	<th>cap-surface</th>
+																	<th>cap-color</th>
+																	<th>bruises</th>
+																	<th>odor</th>
+																	<th>gill-attachment</th>
+																	<th>gill-spacing</th>
+																	<th>gill-size</th>
+																	<th>gill-color</th>
+																	<th>stalk-shape</th>
+																	<th>stalk-root</th>
+																	<th>stalk-surface-above-ring</th>
+																	<th>stalk-surface-below-ring</th>
+																	<th>stalk-color-above-ring</th>
+																	<th>stalk-color-below-ring</th>
+																	<th>veil-type</th>
+																	<th>veil-color</th>
+																	<th>ring-number</th>
+																	<th>ring-type</th>
+																	<th>spore-print-color</th>
+																	<th>population</th>
+																	<th>habitat</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td>convex</td>
+																	<td>smooth</td>
+																	<td>brown</td>
+																	<td>bruises</td>
+																	<td>pungent</td>
+																	<td>free</td>
+																	<td>close</td>
+																	<td>narrow</td>
+																	<td>black</td>
+																	<td>enlarging</td>
+																	<td>equal</td>
+																	<td>smooth</td>
+																	<td>smooth</td>
+																	<td>white</td>
+																	<td>white</td>
+																	<td>partial</td>
+																	<td>white</td>
+																	<td>one</td>
+																	<td>pendant</td>
+																	<td>black</td>
+																	<td>scattered</td>
+																	<td>urban</td>
+																</tr>
+																<tr>
+																	<td>convex</td>
+																	<td>smooth</td>
+																	<td>yellow</td>
+																	<td>bruises</td>
+																	<td>almond</td>
+																	<td>free</td>
+																	<td>close</td>
+																	<td>broad</td>
+																	<td>black</td>
+																	<td>enlarging</td>
+																	<td>club</td>
+																	<td>smooth</td>
+																	<td>smooth</td>
+																	<td>white</td>
+																	<td>white</td>
+																	<td>partial</td>
+																	<td>white</td>
+																	<td>one</td>
+																	<td>pendant</td>
+																	<td>brown</td>
+																	<td>numerous</td>
+																	<td>grasses</td>
+																</tr>
+																<tr>
+																	<td>bell</td>
+																	<td>smooth</td>
+																	<td>white</td>
+																	<td>bruises</td>
+																	<td>anise</td>
+																	<td>free</td>
+																	<td>close</td>
+																	<td>broad</td>
+																	<td>brown</td>
+																	<td>enlarging</td>
+																	<td>club</td>
+																	<td>smooth</td>
+																	<td>smooth</td>
+																	<td>white</td>
+																	<td>white</td>
+																	<td>partial</td>
+																	<td>white</td>
+																	<td>one</td>
+																	<td>pendant</td>
+																	<td>brown</td>
+																	<td>numerous</td>
+																	<td>meadows</td>
+																</tr>
+																<tr>
+																	<td>convex</td>
+																	<td>scaly</td>
+																	<td>white</td>
+																	<td>bruises</td>
+																	<td>pungent</td>
+																	<td>free</td>
+																	<td>close</td>
+																	<td>narrow</td>
+																	<td>brown</td>
+																	<td>enlarging</td>
+																	<td>equal</td>
+																	<td>smooth</td>
+																	<td>smooth</td>
+																	<td>white</td>
+																	<td>white</td>
+																	<td>partial</td>
+																	<td>white</td>
+																	<td>one</td>
+																	<td>pendant</td>
+																	<td>black</td>
+																	<td>scattered</td>
+																	<td>urban</td>
+																</tr>
+																<tr>
+																	<td>convex</td>
+																	<td>smooth</td>
+																	<td>gray</td>
+																	<td>no</td>
+																	<td>none</td>
+																	<td>free</td>
+																	<td>crowded</td>
+																	<td>broad</td>
+																	<td>black</td>
+																	<td>tapering</td>
+																	<td>equal</td>
+																	<td>smooth</td>
+																	<td>smooth</td>
+																	<td>white</td>
+																	<td>white</td>
+																	<td>partial</td>
+																	<td>white</td>
+																	<td>one</td>
+																	<td>evanescent</td>
+																	<td>brown</td>
+																	<td>abundant</td>
+																	<td>grasses</td>
+																</tr>
+															</tbody>
+														</table>
+														<p><i>Note: At this point the predicted variable y , in the second dataset has also been converted (cf. code snippets for more information)</i></p>
+													</div>
+												</div>
+											
+												<div id="Content6" class="tab-content">
+													<pre class="language-python">
+<code>def transform_dataframe(X, code_matrix):
+	transformed_X = pd.DataFrame(index=X.index, columns=X.columns)
+    
+    for col in X.columns:
+        for idx in X.index:
+            letter = X.at[idx, col]
+            try:
+                word = code_matrix.at[letter, col]
+            except KeyError:
+                raise KeyError(f"Error: The letter '{letter}' in column '{col}' was not found in code_matrix.")
+            transformed_X.at[idx, col] = word
+    
+    return transformed_X
+
+X = transform_dataframe(X, code_matrix)
+y = transform_dataframe(y, code_matrix) # This is not necessary immediately but this way the predicted variable are also in words
+
+display(X.head())
+											</code></pre>
+										</div>
+									</div>
+									<br>
+									<p>This concludes this section. Now that we have a readable dataset, we can proceed to visualizing what kind of data we are dealing with.</p>
+									<hr />
+									<h3 id="vizmushp">Data Exploration</h3>
+
+									<p>
+										Given the large number of variables (22), it is quite complex to observe all their relationships. Therefore, we will simplify our search 
+										for patterns within the dataset by reducing the number of dimensions. To this end, we will use the Multiple Correspondence Analysis (MCA) 
+										method. MCA is a dimensionality reduction technique particularly useful for categorical data. It allows us to visualize the relationships 
+										between different categories in our dataset. In this case, we will use MCA to visualize the relationships between different mushroom 
+										characteristics and observe if they form a pattern in relation to their toxicity.
+									</p>
+
+									<div id="tab-container-4" class="tab-container">
+										<div class="tabs">
+											<button class="tab-link" onclick="openTab(event, 'Content7', 'tab-container-4')">Graph</button>
+											<button class="tab-link" onclick="openTab(event, 'Content8', 'tab-container-4')">Code</button>
+										</div>
+									
+										<div id="Content7" class="tab-content">
+											<img src="images/mushmcap.jpg" alt="MCA Plot"  style="height:100%;">
+										</div>
+									
+										<div id="Content8" class="tab-content">
+											<pre class="language-python">
+<code>import seaborn as sns
+import matplotlib.pyplot as plt
+import prince
+
+# Convert all columns to 'category' type to ensure they are treated as categorical
+df = pd.concat([X, y], axis=1)
+for col in df.columns:
+    df[col] = df[col].astype('category')
+
+# Perform MCA with 3 dimensions
+mca = prince.MCA(
+    n_components=3,
+    n_iter=3,
+    copy=True,
+    check_input=True,
+    engine='sklearn',
+    random_state=42
+)
+
+# Fit the model on the data excluding the 'poisonous' column
+mca = mca.fit(df.drop(columns=['poisonous']))
+mca_data = mca.transform(df.drop(columns=['poisonous']))
+mca_data['poisonous'] = df['poisonous'].values
+
+# Create a figure with two subplots side by side
+fig, axes = plt.subplots(1, 2, figsize=(20, 8))
+
+# Plot the MCA results for dimensions 1 and 2 on the first subplot
+sns.scatterplot(
+    ax=axes[0],
+    x=mca_data[0],
+    y=mca_data[1],
+    hue=mca_data['poisonous'],
+    palette=['green', 'red'],
+    s=100,
+    alpha=0.4
+)
+axes[0].set_xlabel('Dimension 1')
+axes[0].set_ylabel('Dimension 2')
+axes[0].legend().remove() 
+axes[0].grid(True)
+
+# Plot the MCA results for dimensions 1 and 3 on the second subplot
+sns.scatterplot(
+    ax=axes[1],
+    x=mca_data[0],
+    y=mca_data[2],
+    hue=mca_data['poisonous'],
+    palette=['green', 'red'],
+    s=100,
+    alpha=0.4
+)
+axes[1].set_xlabel('Dimension 1')
+axes[1].set_ylabel('Dimension 3')
+axes[1].legend(title='Mushroom Type')
+axes[1].grid(True)
+
+# Display the plots
+plt.tight_layout()
+plt.show()
+
+											</code></pre>
+										</div>
+									</div>
+									<br>
+									<p>
+										From the first MCA plot, we can see that while some clusters are well-defined, such as (1;0) and (1;7), others appear to overlap, 
+										particularly in the bottom left corner (-0.5;0). This overlap suggests that this part of the data is not linearly separable. 
+										To further investigate, we can introduce a third dimension, Dimension 3, and plot it against Dimension 1. In the second plot, 
+										we observe that this large cluster is actually composed of smaller clusters, which still overlap but not as much as initially 
+										thought. Overall, the MCA plot shows that although some clusters are clearly defined, others still overlap. Therefore, while 
+										the entirety of the data is not linearly separable, a significant portion is, indicating that a non-linear model, such as a 
+										Random Forest Classifier, would be a good choice for this dataset. We can also expect the model to have relatively high accuracy.
+									</p>
+									<hr />
+									<h3 id="descmushp">Model</h3>
+
+									<p>
+										Now that we have a better understanding of the data, we can proceed with model building. We will use a Random Forest, a non-linear 
+										model well-suited to this type of data. The Random Forest is an ensemble learning method that creates multiple decision trees and 
+										combines their predictions to make a final prediction. This method is particularly useful for classification tasks and is known 
+										for its high accuracy and robustness. We don't need to worry about many parameters; the dataset's documentation mentions achieving 
+										99.8% accuracy with a single decision tree, so 10 trees should suffice to achieve near-perfect accuracy. We will train the model 
+										using the usual 80% training data, 20% testing data split.
+
+									</p>
+									<div id="tab-container-5" class="tab-container">
+										<div class="tabs">
+											<button class="tab-link" onclick="openTab(event, 'Content9', 'tab-container-5')">Table</button>
+											<button class="tab-link" onclick="openTab(event, 'Content10', 'tab-container-5')">Code</button>
+										</div>
+									
+										<div id="Content9" class="tab-content">
+											<p>Out of 1129 individuals tested, the model yields the following results:</p>
+											<div class="table-wrapper">
+												<table class="alt">
+													<tr>
+														<th></th>
+														<th>Edible</th>
+														<th>Poisonous</th>
+													</tr>
+													<tr>
+														<td>Edible</td>
+														<td>693</td>
+														<td>0</td>
+													</tr>
+													<tr>
+														<td>Poisonous</td>
+														<td>0</td>
+														<td>436</td>
+													</tr>
+												</table>
+											<p>The model is 100.00% accurate.</p>
+										</div>
+									</div>
+
+									<div id="Content10" class="tab-content">
+										<pre class="language-python">
+<code>from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import confusion_matrix
+
+# Initialize label encoders
+label_encoders = {}
+
+# Encode all columns in X
+for column in X.columns:
+    le = LabelEncoder()
+    X[column] = le.fit_transform(X[column])
+    label_encoders[column] = le
+
+# Encode the target variable y
+le_y = LabelEncoder()
+y = le_y.fit_transform(y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
+
+# Initialize the Random Forest classifier with 10 trees
+rf_classifier = RandomForestClassifier(n_estimators=10, random_state=123)
+
+# Train the classifier
+rf_classifier.fit(X_train, y_train)
+
+# Predict on the test data
+y_pred = rf_classifier.predict(X_test)
+
+# Create a confusion matrix
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+# Convert confusion matrix to DataFrame for better readability
+conf_matrix_df = pd.DataFrame(conf_matrix, 
+                              index=le_y.classes_, 
+                              columns=le_y.classes_)
+
+# Display the confusion matrix
+print(f"Out of {len(y_test)} individuals tested, the model yields the following results:")
+
+print(conf_matrix_df)
+
+# Calculate the accuracy
+accuracy = ((conf_matrix[0, 0] + conf_matrix[1, 1]) / conf_matrix.sum())*100
+print(f"The model is {accuracy:.2f}% accurate.")</code>
+										</pre>
+									</div>
+								</div>
+
+								<hr />
+
+								<H3 id="webmushp">Web App</H3>
+
+								<p>
+									To make the model accessible to everyone, we will create a web application that allows users to input the characteristics of a mushroom and 
+									get a prediction of whether it is edible or poisonous. We will use the Dash Plotly framework to create the application. The application will 
+									consist of a simple form where users can input the characteristics of the mushroom, and a button to submit the form. Once the form is submitted, 
+									the application will use the trained Random Forest model to make a prediction and display the result to the user. The application was built using 
+									Dash, hosted on Google Cloud, and can be accessed <a href="https://mushroom-roeb4awd7a-ew.a.run.app" target="_blank">here</a>.
+								</p>
+
+								<div id="tab-container-6" class="tab-container">
+									<div class="tabs">
+										<button class="tab-link" onclick="openTab(event, 'Content11', 'tab-container-6')">Web App</button>
+										<button class="tab-link" onclick="openTab(event, 'Content12', 'tab-container-6')">Code</button>
+									</div>
+									<div id="Content11" class="tab-content">
+										<iframe class="responsive-iframe" src="https://mushroom-roeb4awd7a-ew.a.run.app" width="940px" height="610px" frameborder="0" allowfullscreen></iframe>
+									</div>
+									<div id="Content12" class="tab-content">
+										<pre class="language-python">
+<code># Import necessary modules
+import dash
+import numpy as np
+import plotly.graph_objects as go
+from dash import dcc, html
+from dash.dependencies import Input, Output, State
+import io
+import base64
+
+# Initialize Dash app
+app = dash.Dash(__name__)
+
+# Design of the web app
+(...)
+
+# Callback to toggle sidebar visibility
+@app.callback(
+    Output('sidebar', 'style'),
+    [Input('toggle-button', 'n_clicks')],
+    [State('sidebar', 'style')]
+)
+def toggle_sidebar(n_clicks, sidebar_style):
+    if n_clicks % 2 == 1:
+        sidebar_style['display'] = 'block'
+    else:
+        sidebar_style['display'] = 'none'
+    return sidebar_style
+
+@app.callback(
+    [
+        Output('output-title', 'children'),
+        Output('heatmap-output', 'figure')
+    ],
+    [Input('compute-button', 'n_clicks')],
+    [
+        State(f'dropdown-{variable}', 'value') for variable in X.columns
+    ]
+)
+def update_output(n_clicks, *dropdown_values):
+    selected_values = {variable: value for variable, value in zip(X.columns, dropdown_values)}
+
+    if selected_values:
+        X_test_mod = X_test.copy()
+        for variable, value in selected_values.items():
+            X_test_mod[variable] = value
+
+        # Get predictions from each tree in the forest
+        y_preds = [tree.predict(X_test_mod) for tree in rf_classifier.estimators_]
+
+        # For simplicity, we visualize predictions for the first sample
+        first_sample_predictions = np.array([pred[0] for pred in y_preds]).reshape(2, 5)
+
+        # Determine overall prediction
+        overall_prediction = np.round(np.mean(first_sample_predictions), 0).astype(int)
+        if overall_prediction == 0:
+            overall_prediction_label = html.Span(
+                children=["😋", " This Mushroom is Edible ", "😋"],
+                style={'color': 'green', 'font-size': '50px', 'font-family': 'Helvetica'}
+            )
+        else:
+            overall_prediction_label = html.Span(
+                children=["💀", " This Mushroom is Poisonous ", "💀"],
+                style={'color': 'red', 'font-size': '50px', 'font-family': 'Helvetica'}
+            )
+
+        # Create a Plotly figure for the heatmap
+        fig = go.Figure(data=go.Heatmap(
+            z=first_sample_predictions,
+            x=[f'Tree {i+1}' for i in range(5)],
+            y=['Row 1', 'Row 2'],
+            colorscale=[[0, 'green'], [1, 'red']],
+            showscale=False,
+            hoverinfo='text',
+            zmin=0,
+            zmax=1,
+        ))
+
+        # Define annotations for each tree
+        annotations = []
+        for i in range(2):
+            for j in range(5):
+                tree_number = ((i+1) * 5 + j + 1) %10
+                if tree_number == 0:
+                    tree_number = 10
+                tree_value = first_sample_predictions[i, j]
+                annotation_text = f'Tree {tree_number} <br><br> 😋' if tree_value == 0 else f'Tree {tree_number} <br><br> 💀'
+                annotations.append(
+                    dict(
+                        x=j,
+                        y=i,
+                        xref='x',
+                        yref='y',
+                        text=annotation_text,
+                        showarrow=False,
+                        font=dict(family='Helvetica, sans-serif', size=40, color='white')
+                    )
+                )
+
+        fig.update_layout(
+            annotations=annotations,
+            font=dict(family='Helvetica, sans-serif'),
+            xaxis=dict(ticks='', showticklabels=False, showgrid=False, zeroline=False, showline=False),
+            yaxis=dict(ticks='', showticklabels=False, showgrid=False, zeroline=False, showline=False),
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            margin=dict(l=0, r=0, t=0, b=0)
+        )
+
+        return overall_prediction_label, fig
+
+    return "Select a Variable and Category", go.Figure()
+
+# Run the app
+if __name__ == '__main__':
+    app.run_server(debug=True)</code>
+											</pre>
+										</div>
+									</div>	
+									
+									<p>
+										The app is quite simple. Users can select the characteristics of a mushroom from the dropdown menus and click the "Compute" 
+										button to get a prediction of whether the mushroom is edible or poisonous. The header of the app will display the prediction
+										of the model and the heatmap will show the predictions of each tree in the Random Forest. The heatmap will display a green
+										color if the tree predicts the mushroom is edible and a red color if the tree predicts the mushroom is poisonous.
+									</p>
+
+									<hr />
+
+									<h3>Conclusion</h3>
+									
+									<p>
+										And that concludes our analysis of the Mushroom dataset. We have successfully built a Random Forest model that can predict whether a mushroom is edible or poisonous with 100% accuracy. 
+										We have also created a web application that allows users to input the characteristics of a mushroom and get a prediction of its toxicity. 
+										We hope you enjoyed this analysis and learned something new. If you have any questions or comments, feel free to reach out to me. <br><br>
+										Thank you for reading!
+									</p>
+
+									<hr />
+
+									<h3>References</h3>
+									<ul>
+										<li><a href="https://archive.ics.uci.edu/ml/datasets/mushroom">UCI Machine Learning Repository: Mushroom Data Set</a></li>
+										<li><a href="https://scikit-learn.org/stable/documentation.html">Scikit-learn Documentation</a></li>
+										<li><a href="https://plotly.com/python/">Plotly Documentation</a></li>
+										<li><a href="https://dash.plotly.com/">Dash Documentation</a></li>
+									</ul>
+								</div>
+							</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section>
+							<form action="https://api.web3forms.com/submit" method="post" >
+								<div class="fields">
+									<input type="hidden" name="access_key" value="fa06f4c8-1867-47c9-8431-d971454af520">
+									<div class="field">
+										<label for="name">Name</label>
+										<input type="text" name="name" id="name" required/>
+									</div>
+									<div class="field">
+										<label for="email">Email</label>
+										<input type="text" name="email" id="email" required/>
+									</div>
+									<div class="field">
+										<label for="message">Message</label>
+										<textarea name="message" id="message" rows="3" required></textarea>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><input type="submit" value="send message" /></li>
+								</ul>
+							</form>
+						</section>
+						<section class="split contact">
+							<section class="alt">
+								<h3>Address</h3>
+								<p>19 Rue du Mont Charvin<br />
+								74230 Thônes, FRANCE</p>
+							</section>
+							<section>
+								<h3>Phone</h3>
+								<p><a href="#">(+33) 641-242-973</a></p>
+							</section>
+							<section>
+								<h3>Email</h3>
+								<p><a href="#">vittozcyprien@gmail.com</a></p>
+							</section>
+							<section>
+								<h3>Social</h3>
+								<ul class="icons alt">
+									<li><a href="https://www.linkedin.com/in/vittozcyprien/" class="icon brands fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+								</ul>
+							</section>
+						</section>
+					</footer>
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Cyprien Vittoz</li><li><a href="legal.html#header">Legal Mentions</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script>
+				document.addEventListener("DOMContentLoaded", function() {
+					Prism.highlightAll();
+				});
+			</script>
+			<script src="assets/js/prism.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+	</body>
+</html>
