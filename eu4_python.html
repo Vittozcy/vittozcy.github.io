@@ -295,8 +295,8 @@ display(df_expanded.head())</code></pre>
 												  </tr>
 												  <tr>
 													<td>0</td>
-													<td>4</td>
-													<td>1</td>
+													<td>0.4</td>
+													<td>0.1</td>
 													<td>0</td>
 													<td>0.0</td>
 													<td>0.0</td>
@@ -307,7 +307,7 @@ display(df_expanded.head())</code></pre>
 												  </tr>
 												  <tr>
 													<td>0</td>
-													<td>-2</td>
+													<td>-0.2</td>
 													<td>0</td>
 													<td>0</td>
 													<td>0.3</td>
@@ -319,8 +319,8 @@ display(df_expanded.head())</code></pre>
 												  </tr>
 												  <tr>
 													<td>0</td>
-													<td>1</td>
-													<td>-1</td>
+													<td>0.1</td>
+													<td>-0.1</td>
 													<td>0</td>
 													<td>0.6</td>
 													<td>0.0</td>
@@ -332,7 +332,7 @@ display(df_expanded.head())</code></pre>
 												  <tr>
 													<td>0</td>
 													<td>0</td>
-													<td>-1</td>
+													<td>-0.1</td>
 													<td>0</td>
 													<td>0.0</td>
 													<td>0.0</td>
@@ -343,7 +343,7 @@ display(df_expanded.head())</code></pre>
 												  </tr>
 												  <tr>
 													<td>0</td>
-													<td>3</td>
+													<td>0.3</td>
 													<td>0</td>
 													<td>0</td>
 													<td>0.3</td>
@@ -354,7 +354,7 @@ display(df_expanded.head())</code></pre>
 													<td>1</td>
 												  </tr>
 											  </table>
-											  <i>Note: The discipline values have been divided by 10 to avoid wide intervals and the outcome has been changed into binary values (1=yes, 0=no)</i>
+											  <i>Note: The discipline and regiments values have been divided by 10 to avoid wide intervals and the outcome has been changed into binary values (1=yes, 0=no)</i>
 												</div>
 											</div>
 										
@@ -362,12 +362,12 @@ display(df_expanded.head())</code></pre>
 												<pre class="language-python"><code># Create a new dataframe with relative values
 df_relative = pd.DataFrame({
     'tech': df_expanded['mil_tech_at'] - df_expanded['mil_tech_df'],
-    'inf': df_expanded['inf_qt_at'] - df_expanded['inf_qt_df'],
-    'cav': df_expanded['cav_qt_at'] - df_expanded['cav_qt_df'],
-    'art': df_expanded['art_qt_at'] - df_expanded['art_qt_df'],
+    'inf': (df_expanded['inf_qt_at'] - df_expanded['inf_qt_df']) /10,
+    'cav': (df_expanded['cav_qt_at'] - df_expanded['cav_qt_df']) /10,
+    'art': (df_expanded['art_qt_at'] - df_expanded['art_qt_df']) /10,
     'moral': df_expanded['moral_at'] - df_expanded['moral_df'],
-    'discipline': (df_expanded['discipline_at'] - df_expanded['discipline_df']) / 10,
-    'gen_fir': df_expanded['gen_fire_at'] - df_expanded['gen_fire_df'],
+    'discipline': (df_expanded['discipline_at'] - df_expanded['discipline_df']) /10,
+    'gen_fire': df_expanded['gen_fire_at'] - df_expanded['gen_fire_df'],
     'gen_shock': df_expanded['gen_shock_at'] - df_expanded['gen_shock_df'],
     'terrain': df_expanded['terrain_malus'],
     'win': df_expanded['win'].apply(lambda x: 1 if x == 'yes' else 0)
@@ -414,8 +414,8 @@ display(df_relative.head())</code></pre>
 																  <td>tech</td>
 																  <td>0.0</td>
 																  <td>1.153</td>
-																  <td>-6.0</td>
-																  <td>6.0</td>
+																  <td>-0.6</td>
+																  <td>0.6</td>
 																  <td></td>
 																  <td></td>
 																  <td></td>
@@ -429,9 +429,9 @@ display(df_relative.head())</code></pre>
 																<tr>
 																  <td>inf</td>
 																  <td>0.0</td>
-																  <td>10.761</td>
-																  <td>-81.0</td>
-																  <td>81.0</td>
+																  <td>1.076</td>
+																  <td>-8.1</td>
+																  <td>8.1</td>
 																  <td>-0.062</td>
 																  <td></td>
 																  <td></td>
@@ -445,9 +445,9 @@ display(df_relative.head())</code></pre>
 																<tr>
 																  <td>cav</td>
 																  <td>0.0</td>
-																  <td>5.081</td>
-																  <td>-33.0</td>
-																  <td>33.0</td>
+																  <td>0.508</td>
+																  <td>-3.3</td>
+																  <td>3.3</td>
 																  <td>0.033</td>
 																  <td>0.453</td>
 																  <td></td>
@@ -461,9 +461,9 @@ display(df_relative.head())</code></pre>
 																<tr>
 																  <td>art</td>
 																  <td>0.0</td>
-																  <td>10.058</td>
-																  <td>-54.0</td>
-																  <td>54.0</td>
+																  <td>1.06</td>
+																  <td>-5.4</td>
+																  <td>5.4</td>
 																  <td>0.103</td>
 																  <td>0.483</td>
 																  <td>0.584</td>
@@ -494,8 +494,8 @@ display(df_relative.head())</code></pre>
 																  <td>discipline</td>
 																  <td>0.0</td>
 																  <td>1.554</td>
-																  <td>-30.7</td>
-																  <td>30.7</td>
+																  <td>-3.5</td>
+																  <td>3.5</td>
 																  <td>0.170</td>
 																  <td>0.071</td>
 																  <td>-0.101</td>
