@@ -608,7 +608,23 @@ combined_table</code></pre>
 										</div>
 									</div>
 									<br>
-									<p>This concludes this section. Now that we have a readable dataset, we can proceed to visualizing what kind of data we are dealing with.</p>
+									<p>
+										The first thing to note about these statistics is, of course, the mean, minimum, and maximum values, which demonstrate perfect 
+										symmetry due to the previous method of expanding the dataset. This ensures that no errors have been introduced. No variable exceeds 
+										10 or falls below -10, which were the thresholds set to avoid aberrant values. The outcome variables also show no signs of error, as 
+										the results were reversed; thus, a mean of 0.5 and a standard deviation were expected for this dummy variable.<br><br>
+										Multiple insights can be drawn from the correlation matrix, especially if we consider .3 (or -.3) as the threshold for "high" correlation. 
+										First, the correlation among infantry, cavalry, and artillery units is expected, as empires' economies grew and could afford larger armies, 
+										leading the AI to balance these unit types. The correlation of general traits is also anticipated, given that a hidden value, "army tradition," 
+										influences both general fire and shock skill values.A surprising finding, however, is the low or nonexistent correlation between discipline 
+										and battle outcomes. This is unexpected, as the debate among players often revolves around choosing between prioritizing discipline or morale 
+										for armies. This directly relates to game patches, particularly <a href="https://eu4.paradoxwikis.com/Patch_1.33" target="_blank">patch 1.33</a>, 
+										despite Paradox Interactive's claim that <a href="https://eu4.paradoxwikis.com/Patch_1.34" target="_blank">patch 1.34</a> nerfed morale damage. 
+										Yet, we observe a correlation of .406 for morale and only .054 for discipline.<br><br>
+										Overall, the dataset is quite interesting, as the descriptive values encure it has been expanded without error, there are no high or very strong 
+										correlations between two independent variables and no unexpected high correlations, which is a good sign of data integrity. This will allow us to 
+										proceed with the analysis with confidence.
+									</p>
 									<hr />
 									<h3 id="vizmushp">Data Exploration</h3>
 
