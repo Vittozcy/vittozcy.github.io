@@ -290,13 +290,13 @@ print(df_expanded)
 											<table class="alt">
 												<tr>
 													<th>tech</th>
-													<th>inf_ratio</th>
-													<th>cav_ratio</th>
-													<th>art_ratio</th>
+													<th>inf</th>
+													<th>cav</th>
+													<th>art</th>
 													<th>moral</th>
 													<th>discipline</th>
+													<th>gen_fire</th>
 													<th>gen_shock</th>
-													<th>gen_def</th>
 													<th>terrain</th>
 													<th>win</th>
 												  </tr>
@@ -369,13 +369,13 @@ print(df_expanded)
 												<pre class="language-r"><code># Create a new dataframe with relative values
 df_relative = pd.DataFrame({
     'tech': df_expanded['mil_tech_at'] - df_expanded['mil_tech_df'],
-    'inf_ratio': df_expanded['inf_qt_at'] - df_expanded['inf_qt_df'],
-    'cav_ratio': df_expanded['cav_qt_at'] - df_expanded['cav_qt_df'],
-    'art_ratio': df_expanded['art_qt_at'] - df_expanded['art_qt_df'],
+    'inf': df_expanded['inf_qt_at'] - df_expanded['inf_qt_df'],
+    'cav': df_expanded['cav_qt_at'] - df_expanded['cav_qt_df'],
+    'art': df_expanded['art_qt_at'] - df_expanded['art_qt_df'],
     'moral': df_expanded['moral_at'] - df_expanded['moral_df'],
     'discipline': (df_expanded['discipline_at'] - df_expanded['discipline_df']) / 10,
-    'gen_shock': df_expanded['gen_fire_at'] - df_expanded['gen_fire_df'],
-    'gen_def': df_expanded['gen_shock_at'] - df_expanded['gen_shock_df'],
+    'gen_fire': df_expanded['gen_fire_at'] - df_expanded['gen_fire_df'],
+    'gen_shock': df_expanded['gen_shock_at'] - df_expanded['gen_shock_df'],
     'terrain': df_expanded['terrain_malus'],
     'win': df_expanded['win'].apply(lambda x: 1 if x == 'yes' else 0)
 })
@@ -386,7 +386,9 @@ display(df_relative.head())</code></pre>
 											</div>
 											<br>
 											<br>
-											<p>Now we can apply these transformations to the dataset itself:</p>
+											<p>
+												Now we can observe the main features of those variables:
+											</p>
 											<div id="tab-container-3" class="tab-container">
 												<div class="tabs">
 													<button class="tab-link" onclick="openTab(event, 'Content5', 'tab-container-3')">Table</button>
@@ -396,179 +398,212 @@ display(df_relative.head())</code></pre>
 												<div id="Content5" class="tab-content">
 													<div class="table-wrapper">
 														<table class="alt">
+															<tr>
+																<th rowspan="2"></th>
+																<th rowspan="2">mean</th>
+																<th rowspan="2">std</th>
+																<th rowspan="2">min</th>
+																<th rowspan="2">max</th>
+																<th colspan="9">Correlation Values</th>
+															  </tr>
+															  <tr>
+																<th>tech</th>
+																<th>inf</th>
+																<th>cav</th>
+																<th>art</th>
+																<th>moral</th>
+																<th>discipline</th>
+																<th>gen_fire</th>
+																<th>gen_shock</th>
+																<th>terrain</th>
+															  </tr>
 																<tr>
-																	<th>cap-shape</th>
-																	<th>cap-surface</th>
-																	<th>cap-color</th>
-																	<th>bruises</th>
-																	<th>odor</th>
-																	<th>gill-attachment</th>
-																	<th>gill-spacing</th>
-																	<th>gill-size</th>
-																	<th>gill-color</th>
-																	<th>stalk-shape</th>
-																	<th>stalk-root</th>
-																	<th>stalk-surface-above-ring</th>
-																	<th>stalk-surface-below-ring</th>
-																	<th>stalk-color-above-ring</th>
-																	<th>stalk-color-below-ring</th>
-																	<th>veil-type</th>
-																	<th>veil-color</th>
-																	<th>ring-number</th>
-																	<th>ring-type</th>
-																	<th>spore-print-color</th>
-																	<th>population</th>
-																	<th>habitat</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td>convex</td>
-																	<td>smooth</td>
-																	<td>brown</td>
-																	<td>bruises</td>
-																	<td>pungent</td>
-																	<td>free</td>
-																	<td>close</td>
-																	<td>narrow</td>
-																	<td>black</td>
-																	<td>enlarging</td>
-																	<td>equal</td>
-																	<td>smooth</td>
-																	<td>smooth</td>
-																	<td>white</td>
-																	<td>white</td>
-																	<td>partial</td>
-																	<td>white</td>
-																	<td>one</td>
-																	<td>pendant</td>
-																	<td>black</td>
-																	<td>scattered</td>
-																	<td>urban</td>
+																  <td>tech</td>
+																  <td>0.0</td>
+																  <td>1.153</td>
+																  <td>-6.0</td>
+																  <td>6.0</td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
 																</tr>
 																<tr>
-																	<td>convex</td>
-																	<td>smooth</td>
-																	<td>yellow</td>
-																	<td>bruises</td>
-																	<td>almond</td>
-																	<td>free</td>
-																	<td>close</td>
-																	<td>broad</td>
-																	<td>black</td>
-																	<td>enlarging</td>
-																	<td>club</td>
-																	<td>smooth</td>
-																	<td>smooth</td>
-																	<td>white</td>
-																	<td>white</td>
-																	<td>partial</td>
-																	<td>white</td>
-																	<td>one</td>
-																	<td>pendant</td>
-																	<td>brown</td>
-																	<td>numerous</td>
-																	<td>grasses</td>
+																  <td>inf</td>
+																  <td>0.0</td>
+																  <td>10.761</td>
+																  <td>-81.0</td>
+																  <td>81.0</td>
+																  <td>-0.062</td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
 																</tr>
 																<tr>
-																	<td>bell</td>
-																	<td>smooth</td>
-																	<td>white</td>
-																	<td>bruises</td>
-																	<td>anise</td>
-																	<td>free</td>
-																	<td>close</td>
-																	<td>broad</td>
-																	<td>brown</td>
-																	<td>enlarging</td>
-																	<td>club</td>
-																	<td>smooth</td>
-																	<td>smooth</td>
-																	<td>white</td>
-																	<td>white</td>
-																	<td>partial</td>
-																	<td>white</td>
-																	<td>one</td>
-																	<td>pendant</td>
-																	<td>brown</td>
-																	<td>numerous</td>
-																	<td>meadows</td>
+																  <td>cav</td>
+																  <td>0.0</td>
+																  <td>5.081</td>
+																  <td>-33.0</td>
+																  <td>33.0</td>
+																  <td>0.033</td>
+																  <td>0.453</td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
 																</tr>
 																<tr>
-																	<td>convex</td>
-																	<td>scaly</td>
-																	<td>white</td>
-																	<td>bruises</td>
-																	<td>pungent</td>
-																	<td>free</td>
-																	<td>close</td>
-																	<td>narrow</td>
-																	<td>brown</td>
-																	<td>enlarging</td>
-																	<td>equal</td>
-																	<td>smooth</td>
-																	<td>smooth</td>
-																	<td>white</td>
-																	<td>white</td>
-																	<td>partial</td>
-																	<td>white</td>
-																	<td>one</td>
-																	<td>pendant</td>
-																	<td>black</td>
-																	<td>scattered</td>
-																	<td>urban</td>
+																  <td>art</td>
+																  <td>0.0</td>
+																  <td>10.058</td>
+																  <td>-54.0</td>
+																  <td>54.0</td>
+																  <td>0.103</td>
+																  <td>0.483</td>
+																  <td>0.584</td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
 																</tr>
 																<tr>
-																	<td>convex</td>
-																	<td>smooth</td>
-																	<td>gray</td>
-																	<td>no</td>
-																	<td>none</td>
-																	<td>free</td>
-																	<td>crowded</td>
-																	<td>broad</td>
-																	<td>black</td>
-																	<td>tapering</td>
-																	<td>equal</td>
-																	<td>smooth</td>
-																	<td>smooth</td>
-																	<td>white</td>
-																	<td>white</td>
-																	<td>partial</td>
-																	<td>white</td>
-																	<td>one</td>
-																	<td>evanescent</td>
-																	<td>brown</td>
-																	<td>abundant</td>
-																	<td>grasses</td>
+																  <td>moral</td>
+																  <td>0.0</td>
+																  <td>1.135</td>
+																  <td>-5.1</td>
+																  <td>5.1</td>
+																  <td>0.220</td>
+																  <td>0.051</td>
+																  <td>0.113</td>
+																  <td>0.338</td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																</tr>
+																<tr>
+																  <td>discipline</td>
+																  <td>0.0</td>
+																  <td>1.554</td>
+																  <td>-30.7</td>
+																  <td>30.7</td>
+																  <td>0.170</td>
+																  <td>0.071</td>
+																  <td>-0.101</td>
+																  <td>-0.054</td>
+																  <td>0.011</td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																</tr>
+																<tr>
+																  <td>gen_fire</td>
+																  <td>0.0</td>
+																  <td>2.160</td>
+																  <td>-6.0</td>
+																  <td>6.0</td>
+																  <td>-0.087</td>
+																  <td>0.128</td>
+																  <td>0.205</td>
+																  <td>0.239</td>
+																  <td>0.061</td>
+																  <td>-0.061</td>
+																  <td></td>
+																  <td></td>
+																  <td></td>
+																</tr>
+																<tr>
+																  <td>gen_shock</td>
+																  <td>0.0</td>
+																  <td>2.305</td>
+																  <td>-6.0</td>
+																  <td>6.0</td>
+																  <td>-0.090</td>
+																  <td>0.091</td>
+																  <td>0.126</td>
+																  <td>0.077</td>
+																  <td>0.025</td>
+																  <td>0.006</td>
+																  <td>0.354</td>
+																  <td></td>
+																  <td></td>
+																</tr>
+																<tr>
+																  <td>terrain</td>
+																  <td>0.0</td>
+																  <td>1.143</td>
+																  <td>-3.0</td>
+																  <td>3.0</td>
+																  <td>0.130</td>
+																  <td>0.147</td>
+																  <td>0.159</td>
+																  <td>0.228</td>
+																  <td>0.170</td>
+																  <td>0.042</td>
+																  <td>0.020</td>
+																  <td>0.002</td>
+																  <td></td>
+																</tr>
+																<tr>
+																  <td>win</td>
+																  <td>0.5</td>
+																  <td>0.500</td>
+																  <td>0.0</td>
+																  <td>1.0</td>
+																  <td>0.220</td>
+																  <td>0.341</td>
+																  <td>0.428</td>
+																  <td>0.534</td>
+																  <td>0.406</td>
+																  <td>0.054</td>
+																  <td>0.264</td>
+																  <td>0.187</td>
+																  <td>0.312</td>
 																</tr>
 															</tbody>
 														</table>
-														<p><i>Note: At this point the predicted variable y , in the second dataset has also been converted (cf. code snippets for more information)</i></p>
 													</div>
 												</div>
 											
 												<div id="Content6" class="tab-content">
 													<pre class="language-python">
-<code>def transform_dataframe(X, code_matrix):
-	transformed_X = pd.DataFrame(index=X.index, columns=X.columns)
-    
-    for col in X.columns:
-        for idx in X.index:
-            letter = X.at[idx, col]
-            try:
-                word = code_matrix.at[letter, col]
-            except KeyError:
-                raise KeyError(f"Error: The letter '{letter}' in column '{col}' was not found in code_matrix.")
-            transformed_X.at[idx, col] = word
-    
-    return transformed_X
+<code># Descriptive Statistics
+description_table <- df_relative %>%
+  summarise_all(list(mean = mean, std = sd, min = min, max = max)) %>%
+  t() %>%
+  as.data.frame()
 
-X = transform_dataframe(X, code_matrix)
-y = transform_dataframe(y, code_matrix) # This is not necessary immediately but this way the predicted variable are also in words
+description_table <- description_table[, c("mean", "std", "min", "max")]
 
-display(X.head())
-											</code></pre>
+# Correlation Matrix
+correlation_matrix <- cor(df_relative)
+mask <- lower.tri(correlation_matrix)
+correlation_lower_triangle <- correlation_matrix
+correlation_lower_triangle[!mask] <- NA
+
+# Combine both tables
+combined_table <- cbind(description_table, correlation_lower_triangle)
+combined_table <- round(combined_table, 3)
+
+# Display the combined table
+print(combined_table)</code></pre>
 										</div>
 									</div>
 									<br>
